@@ -4,7 +4,19 @@ public class incident_type {
     public  String type;
     public String id;
     public int img;
+    public String url;
 
+    public incident_type(String url) {
+        this.url = url;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
 
     public String getType() {
         return type;
