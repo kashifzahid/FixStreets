@@ -41,7 +41,7 @@ public class RegisterIncident extends AppCompatActivity implements AddPictureDia
     private RecyclerView recyclerView;
     private incident_pictures_adaptor adaptor;
     private List<incident_type> modelClassList;
-    private Button galleryButton, cameraButton;
+    private Button galleryButton, cameraButton, map;
     private static final int PICK_FROM_CAMERA = 1;
     private static final int PICK_FROM_GALLARY = 2;
 
@@ -60,6 +60,7 @@ public class RegisterIncident extends AppCompatActivity implements AddPictureDia
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_incident);
+
         modelClassList = new ArrayList<>();
         recyclerView = findViewById(R.id.recycler_incident_pictures);
         recyclerView.setHasFixedSize(true);
@@ -210,5 +211,10 @@ public class RegisterIncident extends AppCompatActivity implements AddPictureDia
             default:
 
         }
+    }
+
+    public void OpenMap(View view) {
+        Intent i = new Intent(this, Map.class);
+        startActivity(i);
     }
 }
