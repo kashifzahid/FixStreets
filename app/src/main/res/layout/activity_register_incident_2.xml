@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/register_container"
+    android:background="#fff"
+    tools:context=".register_incident_2">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:padding="20dp"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:id="@+id/Relative_Coordinates"
+            android:layout_marginTop="30dp"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/text_Cordinates"
+
+                android:text="COORDINATES "
+                android:drawablePadding="10dp"
+                android:drawableStart="@drawable/ic_people_black_24dp"
+                android:textColor="@color/TextColorBlue"/>
+
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="12dp"
+            android:id="@+id/name"
+            android:layout_below="@id/text_Cordinates"
+            android:layout_marginTop="20dp"
+
+
+            android:hint="Name"
+            android:background="@drawable/square_edit_text"
+            />
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="12dp"
+                android:id="@+id/email"
+                android:layout_below="@id/name"
+                android:layout_marginTop="12dp"
+
+
+                android:hint="Email"
+                android:background="@drawable/square_edit_text"
+                />
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="12dp"
+                android:id="@+id/phone"
+                android:layout_below="@id/email"
+                android:layout_marginTop="12dp"
+
+
+                android:hint="Phone "
+                android:background="@drawable/square_edit_text"
+                />
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="12dp"
+                android:id="@+id/type"
+                android:layout_below="@id/phone"
+                android:layout_marginTop="12dp"
+
+
+                android:hint="Dweller"
+                android:drawableEnd="@drawable/ic_keyboard_arrow_down_black_24dp"
+                android:background="@drawable/square_edit_text"
+
+                />
+            </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/Relative_Coordinates"
+            android:id="@+id/Relative_Submit">
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:layout_marginTop="20dp"
+                android:padding="12dp"
+                android:background="@drawable/button_corner_blue"
+
+                android:textAlignment="center"
+                android:text="SUBMIT"/>
+
+        </RelativeLayout>
+    </RelativeLayout>
+
+</ScrollView>

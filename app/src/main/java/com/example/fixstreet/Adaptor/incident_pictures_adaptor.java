@@ -2,9 +2,14 @@ package com.example.fixstreet.Adaptor;
 
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,6 +22,7 @@ import com.example.fixstreet.JSONData.LoadJson;
 import com.example.fixstreet.Object.incident_type;
 import com.example.fixstreet.R;
 
+import java.io.IOException;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -46,9 +52,25 @@ public class incident_pictures_adaptor extends RecyclerView.Adapter<incident_pic
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
+        final int position=i;
 
         final incident_type modelClass = modelClassList.get(i);
-     viewHolder.img.setImageResource(R.drawable.background_blur);
+        Bitmap bitmap = null;
+        Log.e("h", "onBindViewHolder:000 "+modelClass.getUrl() );
+        try {
+            bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), modelClass.getUrl());
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        viewHolder.img.setImageBitmap(bitmap);
+        viewHolder.del.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                modelClassList.remove(position);
+                notifyDataSetChanged();
+            }
+        });
 
 
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -82,10 +104,14 @@ public class incident_pictures_adaptor extends RecyclerView.Adapter<incident_pic
 
 
          CircleImageView img;
+         ImageButton del;
+
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             img=itemView.findViewById(R.id.profile_image);
+            del=itemView.findViewById(R.id.delete);
+
 
 
         }

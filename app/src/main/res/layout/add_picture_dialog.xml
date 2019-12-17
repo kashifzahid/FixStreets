@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#fff"
+    android:orientation="vertical" >
+
+
+    <TextView
+        android:id="@+id/txt_dia"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:layout_marginBottom="50dp"
+        android:layout_margin="50dp"
+        android:text="Add a picture"
+        android:textColor="@android:color/black"
+        android:textSize="20dp"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/take_pic"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="30dp"
+        android:layout_margin="50dp"
+        android:textAllCaps="false"
+        android:background="@android:color/white"
+        android:gravity="start|center_vertical"
+        android:text="Take a picture"/>
+
+    <Button
+        android:id="@+id/choose_pic"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="30dp"
+        android:layout_margin="50dp"
+        android:textAllCaps="false"
+        android:gravity="start|center_vertical"
+        android:background="@android:color/white"
+        android:text="Choose a picture hjb hj h "/>
+
+        <Button
+            android:id="@+id/btn_cancel"
+            android:layout_width="100dp"
+            android:layout_height="30dp"
+            android:gravity="center_horizontal"
+            android:layout_gravity="end"
+
+            android:layout_margin="50dp"
+            android:background="@android:color/white"
+            android:clickable="true"
+            android:text="Cancel"
+            android:textColor="#000"
+            android:textStyle="bold" />
+
+</LinearLayout>

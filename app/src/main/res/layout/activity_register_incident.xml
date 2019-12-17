@@ -1,13 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="15dp"
+
     android:id="@+id/register_container"
     android:background="#fff"
     tools:context=".View.RegisterIncident">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:padding="15dp"
+        android:layout_height="match_parent">
+
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:id="@+id/Relative_picture_title"
@@ -27,6 +33,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Duplicates"
+        android:visibility="gone"
         android:padding="12dp"
         android:layout_marginStart="10dp"
         android:layout_alignParentEnd="true"
@@ -63,8 +70,8 @@
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/profile_image"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:layout_marginStart="20dp"
             android:onClick="OpenImagePicker"
             android:layout_toEndOf="@id/recycler_incident_pictures"
@@ -157,7 +164,7 @@
 android:layout_below="@id/map_Address"
     android:layout_marginTop="20dp"
     android:padding="12dp"
-    android:background="@drawable/button_corner"
+    android:background="@drawable/button_corner_blue"
 
     android:textAlignment="center"
     android:text="MAP"/>
@@ -187,7 +194,7 @@ android:layout_below="@id/map_Address"
     </RelativeLayout>
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="20dp"
         android:layout_below="@id/Relative_Incident_title"
         android:id="@+id/Relative_Incident"
         android:layout_height="wrap_content">
@@ -210,9 +217,48 @@ android:layout_below="@id/map_Address"
 
 
     </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/Relative_Incident"
+            android:layout_marginTop="20dp"
+            android:id="@+id/Relative_Submit">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/text_Comments"
+
+                android:text="COMMENTS "
+                android:drawablePadding="10dp"
+                android:drawableStart="@drawable/ic_message_black_24dp"
+                android:textColor="@color/TextColorBlue"/>
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="140dp"
+                android:layout_marginTop="20dp"
+                android:padding="12dp"
+                android:layout_below="@id/text_Comments"
+                android:id="@+id/comments"
+
+
+                android:hint=""
+                android:background="@drawable/square_edit_text"
+                />
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/comments"
+                android:layout_marginTop="20dp"
+                android:padding="12dp"
+                android:background="@drawable/button_corner_blue"
+
+                android:textAlignment="center"
+                android:text="SUBMIT"/>
+
+        </RelativeLayout>
 
 
 
+    </RelativeLayout>
 
-
-</RelativeLayout>
+</ScrollView>

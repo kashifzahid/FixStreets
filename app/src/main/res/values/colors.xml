@@ -6,6 +6,6 @@
     <color name="YellowButton">#FFEB3B</color>
     <color name="BackgroundColor">#772196F3</color>
     <color name="TextColor">#fff</color>
-    <color name="TextColorBlue">#579CD1</color>
+    <color name="TextColorBlue">#C82196F3</color>
     <color name="TextColorDisable">#66A9ADAF</color>
 </resources>

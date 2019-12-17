@@ -1,20 +1,22 @@
 package com.example.fixstreet.Object;
 
+import android.net.Uri;
+
 public class incident_type {
     public  String type;
     public String id;
     public int img;
-    public String url;
+    public Uri url;
 
-    public incident_type(String url) {
-        this.url = url;
+    public incident_type(Uri uri) {
+        this.url = uri;
     }
 
-    public String getUrl() {
+    public Uri getUrl() {
         return url;
     }
 
-    public void setUrl(String url) {
+    public void setUrl(Uri url) {
         this.url = url;
     }
 
