@@ -39,9 +39,6 @@
         android:layout_alignParentEnd="true"
         android:background="@drawable/button_corner"/>
 
-
-
-
     </RelativeLayout>
     <HorizontalScrollView
         android:layout_width="match_parent"
@@ -60,13 +57,7 @@
             android:orientation="horizontal"
             tools:itemCount="1"
             tools:listitem="@layout/item_register_incident_picture"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-
-
-            />
-
-
-
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/profile_image"
@@ -76,10 +67,7 @@
             android:onClick="OpenImagePicker"
             android:layout_toEndOf="@id/recycler_incident_pictures"
 
-            android:src="#B0ECE3E3"
-            />
-
-
+            android:src="#B0ECE3E3" />
 
         </RelativeLayout>
 
@@ -91,7 +79,6 @@
         android:id="@+id/Relative_Address_title"
         android:layout_height="wrap_content">
 
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -102,11 +89,8 @@
             android:drawableStart="@drawable/ic_location_on_black_24dp"
             android:textColor="@color/TextColorBlue"/>
 
-
-
-
-
     </RelativeLayout>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:id="@+id/Relative_Address"
@@ -120,25 +104,24 @@
             android:layout_height="wrap_content">
 
            <EditText
-    android:layout_width="0dp"
-    android:layout_height="wrap_content"
-    android:padding="12dp"
+                android:id="@+id/throughfare"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:padding="12dp"
 
-    android:layout_weight="0.8"
-    android:hint="Address"
-    android:background="@drawable/square_edit_text"
-            />
+                android:layout_weight="0.8"
+                android:hint="Address"
+                android:background="@drawable/square_edit_text" />
+
             <EditText
+                android:id="@+id/street"
                 android:layout_width="0dp"
                 android:layout_marginStart="10dp"
                 android:layout_height="wrap_content"
                 android:padding="12dp"
                 android:layout_weight="0.2"
                 android:hint="N8"
-                android:background="@drawable/square_edit_text"
-                />
-
-
+                android:background="@drawable/square_edit_text" />
 
         </LinearLayout>
 
@@ -152,16 +135,16 @@
            android:layout_below="@id/Linear_Address"
            android:editable="false"
            android:layout_marginTop="20dp"
-           android:textAlignment="center"
+           android:textAlignment="textStart"
            android:text="Address"
 
-           android:id="@+id/map_Address"
+           android:id="@+id/locality"
            />
 
 <Button
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-android:layout_below="@id/map_Address"
+android:layout_below="@id/locality"
     android:layout_marginTop="20dp"
     android:padding="12dp"
     android:background="@drawable/button_corner_blue"

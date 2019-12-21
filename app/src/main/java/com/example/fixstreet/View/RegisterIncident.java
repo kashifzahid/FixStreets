@@ -22,12 +22,14 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.example.fixstreet.Adaptor.incident_adaptor;
 import com.example.fixstreet.Adaptor.incident_pictures_adaptor;
 import com.example.fixstreet.Dialog.AddPictureDialog;
 import com.example.fixstreet.Dialog.AddPictureDialogInterface;
 import com.example.fixstreet.Dialog.IncidentTypeDialog;
+import com.example.fixstreet.MapsActivity;
 import com.example.fixstreet.Object.incident_type;
 import com.example.fixstreet.R;
 
@@ -49,6 +51,8 @@ public class RegisterIncident extends AppCompatActivity implements AddPictureDia
     Uri outPutfileUri;
     private Dialog dialog;
 
+    TextView throughfare, locality, street;
+
     private static String[] PERMISSIONS_STORAGE = {
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE
@@ -60,6 +64,10 @@ public class RegisterIncident extends AppCompatActivity implements AddPictureDia
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_incident);
+
+        throughfare = findViewById(R.id.throughfare);
+        locality = findViewById(R.id.locality);
+        street = findViewById(R.id.street);
 
         modelClassList = new ArrayList<>();
         recyclerView = findViewById(R.id.recycler_incident_pictures);
@@ -87,8 +95,6 @@ public class RegisterIncident extends AppCompatActivity implements AddPictureDia
     }
     private void AddDataToRecyclerView() {
         modelClassList.add(new incident_type(Uri.parse("")));
-
-
     }
 
     @Override
@@ -208,13 +214,27 @@ public class RegisterIncident extends AppCompatActivity implements AddPictureDia
 
                 }
                 break;
+            case 10:
+                if(resultCode == Activity.RESULT_OK){
+                    String result=data.getStringExtra("result");
+                    String throughfare = data.getStringExtra("throughfare");
+                    String street = data.getStringExtra("street");
+                    String locality = data.getStringExtra("locality");
+
+                    this.throughfare.setText(throughfare);
+                    this.street.setText(street);
+                    this.locality.setText(locality);
+                }
+                if (resultCode == Activity.RESULT_CANCELED) {
+                    //Write your code if there's no result
+                }
             default:
 
         }
     }
 
     public void OpenMap(View view) {
-        Intent i = new Intent(this, Map.class);
-        startActivity(i);
+        Intent i = new Intent(this, MapsActivity.class);
+        startActivityForResult(i, 10);
     }
 }

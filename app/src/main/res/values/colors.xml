@@ -8,4 +8,8 @@
     <color name="TextColor">#fff</color>
     <color name="TextColorBlue">#C82196F3</color>
     <color name="TextColorDisable">#66A9ADAF</color>
+    <color name="white">#ffffff</color>
+    <color name="black">#000000</color>
+    <color name="light_black">#9e9e9e</color>
+    <color name="backgroundColor">#28b0e4</color>
 </resources>
