@@ -26,9 +26,6 @@ public class IncidentTypes extends Fragment {
     private incident_adaptor adaptor;
     private List<incident_type> modelClassList;
 
-
-
-
     public IncidentTypes() {
         // Required empty public constructor
     }

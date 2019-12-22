@@ -87,7 +87,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     Context context;
     Location mCurrentLocation;
     private Marker mCurrLocationMarker;
-    private TextView textView;
+    private static TextView textView_address;
     private long UPDATE_INTERVAL = 50000;  /* 50 secs */
     private long FASTEST_INTERVAL = 5000; /* 5 secs */
 
@@ -116,7 +116,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 //        }
 
         mFusedLocationClient = getFusedLocationProviderClient(this);
-        textView = findViewById(R.id.text);
+        textView_address = findViewById(R.id.text);
         final LocationManager manager = (LocationManager) MapsActivity.this.getSystemService(Context.LOCATION_SERVICE);
         if (manager.isProviderEnabled(LocationManager.GPS_PROVIDER) && hasGPSDevice(MapsActivity.this)) {
             Log.d(TAG, "Gps already enabled");
@@ -232,6 +232,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
 
+        CameraUpdate point = CameraUpdateFactory.newLatLng(new LatLng(50.846629, 4.345558));
+
+        // moves camera to coordinates
+        mGoogleMap.moveCamera(point);
+        // animates camera to coordinates
+        mGoogleMap.animateCamera(CameraUpdateFactory.zoomTo( 17.0f ));
 
         mGoogleMap.setOnCameraIdleListener(new GoogleMap.OnCameraIdleListener() {
             @Override
@@ -242,18 +248,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                 getAddressFromLocation(location, getApplicationContext(), new GeocoderHandler());
                 //textView.setText(getCompleteAddressString(mGoogleMap.getCameraPosition().target.latitude,mGoogleMap.getCameraPosition().target.longitude));
-                textView.setTextSize(16);
+                textView_address.setTextSize(16);
             }
         });
 
         mGoogleMap.setOnCameraMoveStartedListener(new GoogleMap.OnCameraMoveStartedListener() {
             @Override
             public void onCameraMoveStarted(int i) {
-                textView.setText("Loading...");
+                textView_address.setText("Loading...");
             }
         });
-
-
 
     }
 
@@ -636,6 +640,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         finish();
     }
 
+    public void back_pressed(View view) {
+        finish();
+    }
+
     public static class ErrorDialogFragment extends DialogFragment {
 
         // Global field to contain the error dialog
@@ -662,7 +670,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private static String throughfare;
     private static String locality;
     private static String street;
-    public static void getAddressFromLocation(final Location location, final Context context, final Handler handler) {
+    public void getAddressFromLocation(final Location location, final Context context, final Handler handler) {
         Thread thread = new Thread() {
             @Override
             public void run() {
@@ -697,7 +705,38 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             String[] addre = address.getAddressLine(0).split(",");
 
                             Log.e(TAG, " getFeatureName " + address.getFeatureName() + " getAddressLine " + address.getAddressLine(0).split(",") + " getAdminArea " + address.getAdminArea() + " getLocality " + address.getLocality() + " getPremises " + address.getPremises() + " getSubAdminArea " + address.getSubAdminArea() + " getSubLocality " + address.getSubLocality() + " getMaxAddressLineIndex " + address.getMaxAddressLineIndex() + " locale " + address.getLocale());
+                            if( address.getLocality().equals("Anderlecht") || address.getLocality().equals("Auderghem")
+                                    || address.getLocality().equals("Berchem")|| address.getLocality().equals("Ste-Agathe")
+                                    || address.getLocality().equals("Bruxelles")|| address.getLocality().equals("Etterbeek")
+                                    || address.getLocality().equals("Evere")|| address.getLocality().equals("Forest")
+                                    || address.getLocality().equals("Ganshoren")|| address.getLocality().equals("Ixelles")
+                                    || address.getLocality().equals("Jette")|| address.getLocality().equals("Koekelberg")
+                                    || address.getLocality().equals("Molenbeek")|| address.getLocality().equals("St-Jean")
+                                    || address.getLocality().equals("St-Gilles")|| address.getLocality().equals("St-Josse-ten-Noode")
+                                    || address.getLocality().equals("Schaerbeek")|| address.getLocality().equals("Uccle")
+                                    || address.getLocality().equals("Watermael-Boitsfort")|| address.getLocality().equals("Woluwe-St-Lambert")
+                                    || address.getLocality().equals("Woluwe-St-Pierre")){
+                                runOnUiThread(new Runnable() {
 
+                                    @Override
+                                    public void run() {
+
+                                        textView_address.setTextSize(18);
+
+                                    }
+                                });
+                            }else{
+                                result = "Only the incidents staying within the Belgium region  boundaries can be introduced in the application";
+                                runOnUiThread(new Runnable() {
+
+                                    @Override
+                                    public void run() {
+
+                                        textView_address.setTextSize(15);
+
+                                    }
+                                });
+                            }
                         }
                     }
                 } catch (IOException e) {
@@ -733,7 +772,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
             // replace by what you need to do
             if (result != null) {
-                textView.setText(result);
+                textView_address.setText(result);
             }
         }
     }

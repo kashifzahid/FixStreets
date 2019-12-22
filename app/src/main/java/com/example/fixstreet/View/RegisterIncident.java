@@ -32,6 +32,7 @@ import com.example.fixstreet.Dialog.IncidentTypeDialog;
 import com.example.fixstreet.MapsActivity;
 import com.example.fixstreet.Object.incident_type;
 import com.example.fixstreet.R;
+import com.example.fixstreet.register_incident_2;
 
 import java.io.File;
 import java.io.IOException;
@@ -120,15 +121,16 @@ public class RegisterIncident extends AppCompatActivity implements AddPictureDia
 
     private void launchDismissDlg() {
 
-        dialog = new Dialog(RegisterIncident.this, android.R.style.Theme_Dialog);
+        dialog = new Dialog(RegisterIncident.this, R.style.Dialog);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.add_picture_dialog);
         dialog.setCanceledOnTouchOutside(true);
 
-        Button btnReopenId = (Button) dialog.findViewById(R.id.choose_pic);
-        Button btnCancelId = (Button) dialog.findViewById(R.id.take_pic);
+        Button choose_pic = (Button) dialog.findViewById(R.id.choose_pic);
+        Button take_pic = (Button) dialog.findViewById(R.id.take_pic);
+        Button cancel = (Button) dialog.findViewById(R.id.btn_cancel);
 
-        btnReopenId.setOnClickListener(new View.OnClickListener() {
+        take_pic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (ActivityCompat.checkSelfPermission(RegisterIncident.this, Manifest.permission.CAMERA)
@@ -144,14 +146,11 @@ public class RegisterIncident extends AppCompatActivity implements AddPictureDia
                     startActivityForResult(captureIntent, PICK_FROM_CAMERA);
                     dialog.dismiss();
                 }
-
-
-
             }
         });
 
 
-        btnCancelId.setOnClickListener(new View.OnClickListener() {
+        choose_pic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (ActivityCompat.checkSelfPermission(RegisterIncident.this, Manifest.permission.CAMERA)
@@ -164,8 +163,13 @@ public class RegisterIncident extends AppCompatActivity implements AddPictureDia
                     startActivityForResult(galleryIntent, PICK_FROM_GALLARY);
                     dialog.dismiss();
                 }
+            }
+        });
 
-
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
             }
         });
         dialog.setCanceledOnTouchOutside(false);
@@ -174,6 +178,7 @@ public class RegisterIncident extends AppCompatActivity implements AddPictureDia
         dialog.show();
 
     }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -236,5 +241,14 @@ public class RegisterIncident extends AppCompatActivity implements AddPictureDia
     public void OpenMap(View view) {
         Intent i = new Intent(this, MapsActivity.class);
         startActivityForResult(i, 10);
+    }
+
+    public void btn_submit(View view) {
+        Intent i = new Intent(this, register_incident_2.class);
+        startActivity(i);
+    }
+
+    public void back_pressed(View view) {
+        finish();
     }
 }

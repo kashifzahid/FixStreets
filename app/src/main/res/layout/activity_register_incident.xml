@@ -1,247 +1,287 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/register_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
-    android:id="@+id/register_container"
     android:background="#fff"
     tools:context=".View.RegisterIncident">
-    <RelativeLayout
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/top"
         android:layout_width="match_parent"
-        android:padding="15dp"
-        android:layout_height="match_parent">
+        android:layout_height="60dp"
+        android:layout_alignParentTop="true"
+        app:cardElevation="3dp"
+        app:cardBackgroundColor="@color/TextColorBlue">
 
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:id="@+id/Relative_picture_title"
-        android:layout_height="wrap_content">
-
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/text_picture"
-        android:layout_centerVertical="true"
-        android:text="PICTURES OF THE INCIDENT *"
-        android:drawablePadding="10dp"
-        android:drawableStart="@drawable/ic_camera_alt_blue_24dp"
-        android:textColor="@color/TextColorBlue"/>
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Duplicates"
-        android:visibility="gone"
-        android:padding="12dp"
-        android:layout_marginStart="10dp"
-        android:layout_alignParentEnd="true"
-        android:background="@drawable/button_corner"/>
-
-    </RelativeLayout>
-    <HorizontalScrollView
-        android:layout_width="match_parent"
-        android:id="@+id/Relative_picture"
-        android:layout_below="@id/Relative_picture_title"
-        android:layout_marginTop="10dp"
-        android:layout_height="wrap_content">
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-        <androidx.recyclerview.widget.RecyclerView
+        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/recycler_incident_pictures"
-            android:orientation="horizontal"
-            tools:itemCount="1"
-            tools:listitem="@layout/item_register_incident_picture"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+            android:background="@drawable/ic_keyboard_arrow_left_white_24dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="20dp"
+            android:onClick="back_pressed"/>
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/profile_image"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_marginStart="20dp"
-            android:onClick="OpenImagePicker"
-            android:layout_toEndOf="@id/recycler_incident_pictures"
+        <TextView
+            android:id="@+id/toolbarText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:text="Register An Incident 1/2"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:textSize="20sp" />
 
-            android:src="#B0ECE3E3" />
+    </androidx.cardview.widget.CardView>
+
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff"
+    tools:context=".View.RegisterIncident"
+    android:layout_marginTop="60dp">
+
+    <RelativeLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="15dp">
+
+        <RelativeLayout
+            android:id="@+id/Relative_picture_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/text_picture"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:drawableStart="@drawable/ic_camera_alt_blue_24dp"
+                android:drawablePadding="10dp"
+                android:text="PICTURES OF THE INCIDENT *"
+                android:textColor="@color/TextColorBlue" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="10dp"
+                android:background="@drawable/button_corner"
+                android:padding="12dp"
+                android:text="Duplicates"
+                android:visibility="gone" />
 
         </RelativeLayout>
 
-    </HorizontalScrollView>
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_marginTop="30dp"
-        android:layout_below="@id/Relative_picture"
-        android:id="@+id/Relative_Address_title"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/text_Address"
-            android:layout_centerVertical="true"
-            android:text="ADDRESS *"
-            android:drawablePadding="10dp"
-            android:drawableStart="@drawable/ic_location_on_black_24dp"
-            android:textColor="@color/TextColorBlue"/>
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:id="@+id/Relative_Address"
-        android:layout_below="@+id/Relative_Address_title"
-        android:layout_marginTop="20dp"
-        android:layout_height="wrap_content">
-        <LinearLayout
+        <HorizontalScrollView
+            android:id="@+id/Relative_picture"
             android:layout_width="match_parent"
-            android:orientation="horizontal"
-            android:id="@+id/Linear_Address"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_below="@id/Relative_picture_title">
 
-           <EditText
-                android:id="@+id/throughfare"
-                android:layout_width="0dp"
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_incident_pictures"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:itemCount="1"
+                    tools:listitem="@layout/item_register_incident_picture" />
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/profile_image"
+                    android:layout_width="85dp"
+                    android:layout_height="85dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginStart="10dp"
+                    app:civ_border_color="#B0ECE3E3"
+                    app:civ_border_width="2dp"
+                    android:layout_toEndOf="@id/recycler_incident_pictures"
+                    android:onClick="OpenImagePicker"
+                    android:src="@drawable/ic_add_white_24dp" />
+
+            </RelativeLayout>
+
+        </HorizontalScrollView>
+
+        <RelativeLayout
+            android:id="@+id/Relative_Address_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/Relative_picture"
+            android:layout_marginTop="15dp">
+
+            <TextView
+                android:id="@+id/text_Address"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="12dp"
+                android:layout_centerVertical="true"
+                android:drawableStart="@drawable/ic_location_on_black_24dp"
+                android:drawablePadding="10dp"
+                android:text="ADDRESS *"
+                android:textColor="@color/TextColorBlue" />
 
-                android:layout_weight="0.8"
-                android:hint="Address"
-                android:background="@drawable/square_edit_text" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/Relative_Address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/Relative_Address_title"
+            android:layout_marginTop="10dp">
+
+            <LinearLayout
+                android:id="@+id/Linear_Address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/throughfare"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.8"
+                    android:textSize="15sp"
+                    android:background="@drawable/square_edit_text"
+                    android:hint="Address"
+                    android:padding="12dp" />
+
+                <EditText
+                    android:id="@+id/street"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_weight="0.2"
+                    android:textSize="15sp"
+                    android:background="@drawable/square_edit_text"
+                    android:hint="N8"
+                    android:padding="12dp" />
+
+            </LinearLayout>
 
             <EditText
-                android:id="@+id/street"
-                android:layout_width="0dp"
-                android:layout_marginStart="10dp"
+                android:id="@+id/locality"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/Linear_Address"
+                android:textSize="15sp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/square_edit_text_disable"
+                android:editable="false"
                 android:padding="12dp"
-                android:layout_weight="0.2"
-                android:hint="N8"
-                android:background="@drawable/square_edit_text" />
+                android:text="Address"
+                android:textColor="#707070"
+                android:textAlignment="textStart" />
 
-        </LinearLayout>
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/locality"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/button_corner_blue"
+                android:onClick="OpenMap"
+                android:padding="12dp"
+                android:text="MAP"
+                android:textAlignment="center"
+                android:textColor="@color/white"/>
+        </RelativeLayout>
 
-       <EditText
-           android:layout_width="match_parent"
-           android:layout_height="wrap_content"
-           android:background="@drawable/square_edit_text_disable"
-           android:padding="12dp"
-
-
-           android:layout_below="@id/Linear_Address"
-           android:editable="false"
-           android:layout_marginTop="20dp"
-           android:textAlignment="textStart"
-           android:text="Address"
-
-           android:id="@+id/locality"
-           />
-
-<Button
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-android:layout_below="@id/locality"
-    android:layout_marginTop="20dp"
-    android:padding="12dp"
-    android:background="@drawable/button_corner_blue"
-    android:textAlignment="center"
-    android:onClick="OpenMap"
-    android:text="MAP"/>
-    </RelativeLayout>
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_marginTop="30dp"
-        android:layout_below="@id/Relative_Address"
-        android:id="@+id/Relative_Incident_title"
-        android:layout_height="wrap_content">
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/text_Incident"
-            android:layout_centerVertical="true"
-            android:text="INCIDENT TYPE *"
-            android:drawablePadding="10dp"
-            android:drawableStart="@drawable/ic_report_problem_black_24dp"
-            android:textColor="@color/TextColorBlue"/>
-
-
-
-
-
-    </RelativeLayout>
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_marginTop="20dp"
-        android:layout_below="@id/Relative_Incident_title"
-        android:id="@+id/Relative_Incident"
-        android:layout_height="wrap_content">
-
-
-        <TextView
-            android:id="@+id/text_report"
-            android:layout_width="match_parent"
-            android:text="Incident Type"
-            android:onClick="OpenTypes"
-
-            android:layout_height="wrap_content"
-            android:drawableEnd="@drawable/ic_keyboard_arrow_down_black_24dp"
-            android:background="@drawable/square_edit_text"
-            android:padding="12dp"
-             />
-
-
-
-
-
-    </RelativeLayout>
         <RelativeLayout
+            android:id="@+id/Relative_Incident_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/Relative_Address"
+            android:layout_marginTop="30dp">
+
+
+            <TextView
+                android:id="@+id/text_Incident"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:drawableStart="@drawable/ic_report_problem_black_24dp"
+                android:drawablePadding="10dp"
+                android:text="INCIDENT TYPE *"
+                android:textColor="@color/TextColorBlue" />
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/Relative_Incident"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/Relative_Incident_title"
+            android:layout_marginTop="20dp">
+
+
+            <TextView
+                android:id="@+id/text_report"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/square_edit_text"
+
+                android:drawableEnd="@drawable/ic_keyboard_arrow_down_black_24dp"
+                android:onClick="OpenTypes"
+                android:text="Incident Type" />
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/Relative_Submit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/Relative_Incident"
-            android:layout_marginTop="20dp"
-            android:id="@+id/Relative_Submit">
+            android:layout_marginTop="20dp">
+
             <TextView
+                android:id="@+id/text_Comments"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/text_Comments"
 
-                android:text="COMMENTS "
-                android:drawablePadding="10dp"
                 android:drawableStart="@drawable/ic_message_black_24dp"
-                android:textColor="@color/TextColorBlue"/>
+                android:drawablePadding="10dp"
+                android:text="COMMENTS "
+                android:textColor="@color/TextColorBlue" />
+
             <EditText
+                android:id="@+id/comments"
                 android:layout_width="match_parent"
                 android:layout_height="140dp"
-                android:layout_marginTop="20dp"
-                android:padding="12dp"
                 android:layout_below="@id/text_Comments"
-                android:id="@+id/comments"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/square_edit_text"
 
 
                 android:hint=""
-                android:background="@drawable/square_edit_text"
-                />
+                android:padding="12dp" />
+
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/comments"
                 android:layout_marginTop="20dp"
-                android:padding="12dp"
                 android:background="@drawable/button_corner_blue"
-
-                android:textAlignment="center"
-                android:text="SUBMIT"/>
+                android:onClick="btn_submit"
+                android:padding="12dp"
+                android:text="SUBMIT"
+                android:textColor="@color/white"
+                android:textAlignment="center" />
 
         </RelativeLayout>
-
 
 
     </RelativeLayout>
 
 </ScrollView>
+
+</RelativeLayout>

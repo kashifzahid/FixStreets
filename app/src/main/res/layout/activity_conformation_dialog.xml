@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:background="#fff"
+    android:orientation="vertical"
+    android:layout_margin="20dp">
+
+
+    <TextView
+        android:id="@+id/txt_dia"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:layout_gravity="start"
+        android:text="Confirmation"
+        android:textColor="@android:color/black"
+        android:textSize="20dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:textSize="15sp"
+        android:textColor="@android:color/black"
+        android:text="Thank you ! Your incident has been sent to the competent service. An E-mail containing the incident information has been sent to your address"/>
+
+    <Button
+        android:id="@+id/btn_cancel"
+        android:layout_width="100dp"
+        android:layout_height="30dp"
+        android:gravity="center_horizontal"
+        android:layout_gravity="end"
+
+        android:background="@android:color/white"
+        android:clickable="true"
+        android:text="Ok"
+        android:textColor="#000"
+        android:textStyle="bold" />
+
+</LinearLayout>
