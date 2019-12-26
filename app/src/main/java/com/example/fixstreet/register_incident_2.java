@@ -19,8 +19,17 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.fixstreet.Volley.Urls;
+import com.example.fixstreet.Volley.VolleyPostCallBack;
+import com.example.fixstreet.Volley.VolleyRequest;
 import com.example.fixstreet.aws.Aws;
+import com.google.gson.JsonObject;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.lang.reflect.Array;
@@ -47,7 +56,7 @@ public class register_incident_2 extends AppCompatActivity {
         street = i.getStringExtra("street");
         house_no = i.getStringExtra("house_no");
         muncipality = i.getStringExtra("muncipality");
-        incident_type = i.getStringExtra("incident_type");
+        incident_type = i.getStringExtra("incident_type").toString();
         comment = i.getStringExtra("comment");
         uris = i.getStringArrayListExtra("images");
 
@@ -98,9 +107,13 @@ public class register_incident_2 extends AppCompatActivity {
                     dweller.setHint("Dweller *");
                     // Enable EditText
                     name.setFocusable(true);
+                    name.setFocusableInTouchMode(true);
                     email.setFocusable(true);
+                    email.setFocusableInTouchMode(true);
                     phone.setFocusable(true);
+                    phone.setFocusableInTouchMode(true);
                     dweller.setFocusable(true);
+                    dweller.setFocusableInTouchMode(true);
 
                     name.setBackground(getDrawable(R.drawable.square_edit_text));
                     email.setBackground(getDrawable(R.drawable.square_edit_text));
@@ -191,7 +204,7 @@ public class register_incident_2 extends AppCompatActivity {
         return "com.google.android.apps.photos.content".equals(uri.getAuthority());
     }
 
-    public void Btn_Send(){
+    public void Btn_Send(View view){
         if(swt_stay_anonymous.isChecked()){
 
         }else{
@@ -200,6 +213,63 @@ public class register_incident_2 extends AppCompatActivity {
             String phone = this.phone.getText().toString();
             String dweller = this.dweller.getText().toString();
             // if(name.equals("")x)
+
+            JSONObject jsonObject=new JSONObject();
+            JSONObject type = new JSONObject();
+            JSONObject detail = new JSONObject();
+            JSONArray items=new JSONArray();
+            try {
+                jsonObject.put("screen","AddIncidentReport");
+                // Log.e("tag", "getDashboard: "+id );
+                jsonObject.put("id","1_1_1");
+                jsonObject.put("region", muncipality);
+                jsonObject.put("address", street);
+                jsonObject.put("lat", street);
+                jsonObject.put("long", street);
+                jsonObject.put("status", Urls.NEW_INCIDENT_STATUS);
+
+
+                type.put("by", swt_stay_anonymous.isChecked()? "Anonymous": "User");
+
+                detail.put("name", name);
+                detail.put("email", email);
+                detail.put("number", phone);
+                detail.put("type", dweller);
+                type.put("detail", detail);
+                jsonObject.put("type", type);
+//                items.getJSONObject(1).put("msg","Bad ");
+//                items.getJSONObject(1).put("type",comment);
+//                jsonObject.put("details",items);
+                Log.e(TAG, "Btn_Send: "+jsonObject );
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+
+            VolleyRequest.PostRequest(this, Urls.add_incident, jsonObject, new VolleyPostCallBack() {
+
+                @Override
+                public void OnSuccess(JSONObject jsonObject) {
+                    try {
+
+                        String absents=jsonObject.getString("absent_count");
+                        String attends=jsonObject.getString("present_count");
+
+                        Log.e(TAG, "OnSuccess: ");
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+
+                @Override
+                public void OnFailure(String err) {
+                    Log.e(TAG, "OnFailure: "+err );
+
+                }
+            });
+
         }
     }
 

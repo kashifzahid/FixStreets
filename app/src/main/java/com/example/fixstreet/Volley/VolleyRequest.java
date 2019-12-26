@@ -18,7 +18,7 @@ import static com.android.volley.VolleyLog.TAG;
 
 public class VolleyRequest {
     public static void PostRequest(Context context, String uri, JSONObject data, final VolleyPostCallBack callBack) {
-        Log.d("s", "sendData: started ");
+        Log.d("s", "sendData: started "+uri+data);
 
         JsonObjectRequest request3 = new JsonObjectRequest(Request.Method.POST, uri,data, new Response.Listener<JSONObject>() {
             @Override

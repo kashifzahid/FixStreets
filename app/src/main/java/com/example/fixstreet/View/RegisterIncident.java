@@ -251,11 +251,11 @@ public class RegisterIncident extends AppCompatActivity implements AddPictureDia
 
     public void btn_submit(View view) {
         Intent i = new Intent(this, register_incident_2.class);
-        i.putExtra("street", throughfare.getText());
-        i.putExtra("house_no", street.getText());
-        i.putExtra("municipality", locality.getText());
-        i.putExtra("incident_type", "incident_type");
-        i.putExtra("comment", ed_comment.getText());
+        i.putExtra("street", throughfare.getText().toString());
+        i.putExtra("house_no", street.getText().toString());
+        i.putExtra("municipality", locality.getText().toString());
+        i.putExtra("incident_type", "1_1_1");
+        i.putExtra("comment", ed_comment.getText().toString());
         ArrayList a = new ArrayList();
         for (int j=0; j<modelClassList.size(); j++){
             a.add(modelClassList.get(j).getUrl());
