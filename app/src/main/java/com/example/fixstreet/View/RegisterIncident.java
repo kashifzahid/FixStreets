@@ -14,14 +14,17 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.fixstreet.Adaptor.incident_adaptor;
@@ -36,7 +39,9 @@ import com.example.fixstreet.register_incident_2;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class RegisterIncident extends AppCompatActivity implements AddPictureDialogInterface {
@@ -54,12 +59,13 @@ public class RegisterIncident extends AppCompatActivity implements AddPictureDia
 
     TextView throughfare, locality, street;
 
+
     private static String[] PERMISSIONS_STORAGE = {
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE
     };
 
-
+    private EditText ed_comment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +75,8 @@ public class RegisterIncident extends AppCompatActivity implements AddPictureDia
         throughfare = findViewById(R.id.throughfare);
         locality = findViewById(R.id.locality);
         street = findViewById(R.id.street);
+
+        ed_comment = findViewById(R.id.comments);
 
         modelClassList = new ArrayList<>();
         recyclerView = findViewById(R.id.recycler_incident_pictures);
@@ -121,6 +129,8 @@ public class RegisterIncident extends AppCompatActivity implements AddPictureDia
 
     private void launchDismissDlg() {
 
+        isStoragePermissionGranted();
+
         dialog = new Dialog(RegisterIncident.this, R.style.Dialog);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.add_picture_dialog);
@@ -134,14 +144,17 @@ public class RegisterIncident extends AppCompatActivity implements AddPictureDia
             @Override
             public void onClick(View v) {
                 if (ActivityCompat.checkSelfPermission(RegisterIncident.this, Manifest.permission.CAMERA)
-                        != PackageManager.PERMISSION_GRANTED) {
+                        != PackageManager.PERMISSION_GRANTED && isStoragePermissionGranted()) {
                     // Callback onRequestPermissionsResult interceptadona Activity MainActivity
                     ActivityCompat.requestPermissions(RegisterIncident.this, new String[]{Manifest.permission.CAMERA}, PICK_FROM_CAMERA);
                 } else {
                     // permission has been granted, continue as usual
                     Intent captureIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                    File file = new File(Environment.getExternalStorageDirectory(), "MyPhoto.jpg");
+                    SimpleDateFormat s = new SimpleDateFormat("ddMMyyyyhhmmss");
+                    String format = s.format(new Date());
+                    File file = new File(Environment.getExternalStorageDirectory(), "MyPhoto"+format+".jpg");
                     outPutfileUri = Uri.fromFile(file);
+                    Log.d(TAG, "onClick: "+MediaStore.EXTRA_OUTPUT);
                     captureIntent.putExtra(MediaStore.EXTRA_OUTPUT, outPutfileUri);
                     startActivityForResult(captureIntent, PICK_FROM_CAMERA);
                     dialog.dismiss();
@@ -189,6 +202,8 @@ public class RegisterIncident extends AppCompatActivity implements AddPictureDia
                     //pic coming from camera
                     Bitmap bitmap=null;
                     try {
+                        Uri selectedImage = data.getParcelableExtra(MediaStore.EXTRA_OUTPUT);;
+                        userTakenApicture(selectedImage);
                         bitmap = MediaStore.Images.Media.getBitmap(RegisterIncident.this.getContentResolver(), outPutfileUri);
                         ((AddPictureDialogInterface) RegisterIncident.this).userTakenApicture(outPutfileUri);
 
@@ -204,18 +219,9 @@ public class RegisterIncident extends AppCompatActivity implements AddPictureDia
                 if (resultCode == Activity.RESULT_OK) {
                     //pick image from gallery
                     Uri selectedImage = data.getData();
-                    userSelectedApicture(selectedImage);
-                    Log.e("cG", "onActivityResult: "+selectedImage );
+                    userSelectedApicture(Uri.parse(String.valueOf(selectedImage)));
+                    Log.e("cG", "onActivityResult: "+Uri.parse(String.valueOf(selectedImage)) );
                     String[] filePathColumn = { MediaStore.Images.Media.DATA };
-
-                    // Get the cursor
-                    Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
-                    // Move to first row
-                    cursor.moveToFirst();
-
-                    int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-                    String imgDecodableString = cursor.getString(columnIndex);
-                    cursor.close();
 
                 }
                 break;
@@ -245,10 +251,39 @@ public class RegisterIncident extends AppCompatActivity implements AddPictureDia
 
     public void btn_submit(View view) {
         Intent i = new Intent(this, register_incident_2.class);
+        i.putExtra("street", throughfare.getText());
+        i.putExtra("house_no", street.getText());
+        i.putExtra("municipality", locality.getText());
+        i.putExtra("incident_type", "incident_type");
+        i.putExtra("comment", ed_comment.getText());
+        ArrayList a = new ArrayList();
+        for (int j=0; j<modelClassList.size(); j++){
+            a.add(modelClassList.get(j).getUrl());
+        }
+        i.putExtra("images", a);
         startActivity(i);
     }
 
     public void back_pressed(View view) {
         finish();
     }
+
+    public boolean isStoragePermissionGranted () {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    == PackageManager.PERMISSION_GRANTED) {
+                Log.v(TAG, "Permission is granted");
+                return true;
+            } else {
+
+                Log.v(TAG, "Permission is revoked");
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+                return false;
+            }
+        } else { //permission is automatically granted on sdk<23 upon installation
+            Log.v(TAG, "Permission is granted");
+            return true;
+        }
+    }
+
 }
