@@ -8,8 +8,23 @@ public class incident_type {
     public int img;
     public Uri url;
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String name;
+
     public incident_type(Uri uri) {
         this.url = uri;
+    }
+
+    public incident_type(String id, String name) {
+        this.id = id;
+        this.name = name;
     }
 
     public Uri getUrl() {
@@ -49,4 +64,5 @@ public class incident_type {
         this.type = type;
         this.id = id;
     }
+
 }

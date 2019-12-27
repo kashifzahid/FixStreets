@@ -1,16 +1,19 @@
 package com.example.fixstreet;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.ContentUris;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -214,10 +217,38 @@ public class register_incident_2 extends AppCompatActivity {
             String dweller = this.dweller.getText().toString();
             // if(name.equals("")x)
 
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(register_incident_2.this);
+
+                    builder.setTitle("Confirmation");
+                    builder.setMessage("Thank you ! Your incident has been sent to the competent service. An E-mail containing the incident information has been sent to your address");
+
+                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+
+                        public void onClick(DialogInterface dialog, int which) {
+                            // Do nothing but close the dialog
+
+                            dialog.dismiss();
+                            Intent i = new Intent(getApplicationContext(), MainActivity.class);
+                            startActivity(i);
+                            finish();
+                        }
+                    });
+
+                    AlertDialog alert = builder.create();
+                    alert.show();
+                }
+            }, 2000);
+
+
             JSONObject jsonObject=new JSONObject();
             JSONObject type = new JSONObject();
             JSONObject detail = new JSONObject();
             JSONArray items=new JSONArray();
+            JSONObject itemDetails=new JSONObject();
             try {
                 jsonObject.put("screen","AddIncidentReport");
                 // Log.e("tag", "getDashboard: "+id );
@@ -237,9 +268,26 @@ public class register_incident_2 extends AppCompatActivity {
                 detail.put("type", dweller);
                 type.put("detail", detail);
                 jsonObject.put("type", type);
-//                items.getJSONObject(1).put("msg","Bad ");
-//                items.getJSONObject(1).put("type",comment);
-//                jsonObject.put("details",items);
+                if(uris.size()>0) {
+                for(int i=0;i<uris.size();i++){
+                    itemDetails.put("msg",uris.get(i));
+                    itemDetails.put("type","image");
+                    items.put(i,itemDetails);
+                }
+
+
+
+                    itemDetails.put("msg", comment);
+                    itemDetails.put("type", "comment");
+                    items.put(uris.size(),itemDetails);
+                }
+                else{
+                    itemDetails.put("msg", comment);
+                    itemDetails.put("type", "comment");
+                    items.put(0,itemDetails);
+                }
+
+              jsonObject.put("detail",items);
                 Log.e(TAG, "Btn_Send: "+jsonObject );
             } catch (JSONException e) {
                 e.printStackTrace();

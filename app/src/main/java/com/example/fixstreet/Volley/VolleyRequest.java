@@ -75,8 +75,11 @@ public class VolleyRequest {
                 Log.e(TAG, "onResponse: send Successfully" );
                 Log.e(TAG, "onResponse data is : "+response );
 
-                    callBack.OnSuccess(response);
-
+                try {
+                    callBack.OnSuccess(response.getJSONObject("status"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
 
 
             }

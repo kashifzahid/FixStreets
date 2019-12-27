@@ -17,6 +17,9 @@ import com.example.fixstreet.Adaptor.incident_adaptor;
 import com.example.fixstreet.JSONData.LoadJson;
 import com.example.fixstreet.Object.incident_type;
 import com.example.fixstreet.R;
+import com.example.fixstreet.Volley.Urls;
+import com.example.fixstreet.Volley.VolleyPostCallBack;
+import com.example.fixstreet.Volley.VolleyRequest;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -35,6 +38,7 @@ public class IncidentTypeDialog extends DialogFragment {
     private List<incident_type> modelClassList;
     private static String type;
     private static String name;
+    String url,screen;
     private static FragmentManager fragmentManager;
 
 
@@ -76,15 +80,55 @@ public class IncidentTypeDialog extends DialogFragment {
         LinearLayoutManager recyclerLayoutManager = new LinearLayoutManager(getActivity());
         recyclerLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(recyclerLayoutManager);
-        if (type.equals("one")) {
-            AddDataToRecyclerView();
-        } else if (type.equals("two")) {
-            AddDataToRecyclerViewDetail(name);
-        } else if (type.equals("three")) {
-            AddDataToRecyclerViewDetailProduct(name);
-        }
-
+        url="";
+//        if (type.equals("one")) {
+//            AddDataToRecyclerView();
+//        } else if (type.equals("two")) {
+//            AddDataToRecyclerViewDetail(name);
+//        } else if (type.equals("three")) {
+//            AddDataToRecyclerViewDetailProduct(name);
+//        }
+        AddDataToRecyclerViewFromServer(type,name);
         return view;
+    }
+
+    private void AddDataToRecyclerViewFromServer(final String type, final String name) {
+        if(type.equals("one")){
+            screen="GetCategory";
+
+        }else if(type.equals("two")){
+            screen="GetSubCategoryByCategory";
+        }else if(type.equals("three")){
+            screen="GetItemBySubCategory";
+
+        }
+        url=Urls.GetCategory+"?screen="+screen+"&id="+name;
+
+        VolleyRequest.GetRequest(getActivity(), url, new VolleyPostCallBack() {
+            @Override
+            public void OnSuccess(JSONObject jsonObject) {
+                try {
+                    JSONArray jsonArray=jsonObject.getJSONArray("result");
+                    for (int i=0;i<jsonArray.length();i++){
+                        JSONObject js = jsonArray.getJSONObject(0);
+                        String name = js.getString("Name");
+                        String id = js.getString("id");
+                        modelClassList.add(new incident_type( name,id, R.drawable.ic_location_on_black_24dp));
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                adaptor = new incident_adaptor(getActivity(), modelClassList, type, fragmentManager);
+                recyclerView.setAdapter(adaptor);
+            }
+
+            @Override
+            public void OnFailure(String err) {
+
+            }
+        });
+
     }
 
     @Override

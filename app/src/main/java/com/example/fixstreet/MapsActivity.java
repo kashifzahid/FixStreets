@@ -705,18 +705,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             String[] addre = address.getAddressLine(0).split(",");
 
                             Log.e(TAG, " getFeatureName " + address.getFeatureName() + " getAddressLine " + address.getAddressLine(0).split(",") + " getAdminArea " + address.getAdminArea() + " getLocality " + address.getLocality() + " getPremises " + address.getPremises() + " getSubAdminArea " + address.getSubAdminArea() + " getSubLocality " + address.getSubLocality() + " getMaxAddressLineIndex " + address.getMaxAddressLineIndex() + " locale " + address.getLocale());
-//                            if( address.getLocality().equals("Anderlecht") || address.getLocality().equals("Auderghem")
-//                                    || address.getLocality().equals("Berchem")|| address.getLocality().equals("Ste-Agathe")
-//                                    || address.getLocality().equals("Bruxelles")|| address.getLocality().equals("Etterbeek")
-//                                    || address.getLocality().equals("Evere")|| address.getLocality().equals("Forest")
-//                                    || address.getLocality().equals("Ganshoren")|| address.getLocality().equals("Ixelles")
-//                                    || address.getLocality().equals("Jette")|| address.getLocality().equals("Koekelberg")
-//                                    || address.getLocality().equals("Molenbeek")|| address.getLocality().equals("St-Jean")
-//                                    || address.getLocality().equals("St-Gilles")|| address.getLocality().equals("St-Josse-ten-Noode")
-//                                    || address.getLocality().equals("Schaerbeek")|| address.getLocality().equals("Uccle")
-//                                    || address.getLocality().equals("Watermael-Boitsfort")|| address.getLocality().equals("Woluwe-St-Lambert")
-//                                    || address.getLocality().equals("Woluwe-St-Pierre")){
-                            if( address.getAddressLine(0).contains("Brussel")){
+                            if( address.getLocality().equals("Anderlecht") || address.getLocality().equals("Auderghem")
+                                    || address.getLocality().equals("Berchem")|| address.getLocality().equals("Ste-Agathe")
+                                    || address.getLocality().equals("Bruxelles")|| address.getLocality().equals("Etterbeek")
+                                    || address.getLocality().equals("Evere")|| address.getLocality().equals("Forest")
+                                    || address.getLocality().equals("Ganshoren")|| address.getLocality().equals("Ixelles")
+                                    || address.getLocality().equals("Jette")|| address.getLocality().equals("Koekelberg")
+                                    || address.getLocality().equals("Molenbeek")|| address.getLocality().equals("St-Jean")
+                                    || address.getLocality().equals("St-Gilles")|| address.getLocality().equals("St-Josse-ten-Noode")
+                                    || address.getLocality().equals("Schaerbeek")|| address.getLocality().equals("Uccle")
+                                    || address.getLocality().equals("Watermael-Boitsfort")|| address.getLocality().equals("Woluwe-St-Lambert")
+                                    || address.getLocality().equals("Woluwe-St-Pierre")){
+//                            if( address.getAddressLine(0).contains("Brussel")){
                                 runOnUiThread(new Runnable() {
 
                                     @Override
