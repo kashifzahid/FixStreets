@@ -17,10 +17,13 @@ import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import com.example.fixstreet.Dialog.AddPictureDialogInterface;
 import com.example.fixstreet.Dialog.IncidentTypeDialog;
 import com.example.fixstreet.JSONData.LoadJson;
 import com.example.fixstreet.Object.incident_type;
 import com.example.fixstreet.R;
+import com.example.fixstreet.RecyclerViewClicked;
+import com.example.fixstreet.View.RegisterIncident;
 
 import java.util.List;
 
@@ -66,18 +69,23 @@ public class incident_adaptor extends RecyclerView.Adapter<incident_adaptor.View
                 if(type.equals("one")){
                     IncidentTypeDialog.display(fragmentManager,"two",modelClass.getId());
                 }else if(type.equals("two")) {
+                    IncidentTypeDialog.display(fragmentManager, "three", modelClass.getId());
 
-                    String status = loadJson.CheckProduct(modelClass.getId());
-                    if (status.equals("yes")) {
-                        IncidentTypeDialog.display(fragmentManager, "three", modelClass.getId());
-                    } else if (status.equals("not")) {
-                        String name = loadJson.GetProductId(modelClass.getId(), "two");
-                        Toast.makeText(context, "Id is" + modelClass.getId() + " name is " + name, Toast.LENGTH_SHORT).show();
-
-                    }
+//                    String status = loadJson.CheckProduct(modelClass.getId());
+//                    if (status.equals("yes")) {
+//                        IncidentTypeDialog.display(fragmentManager, "three", modelClass.getId());
+//                    } else if (status.equals("not")) {
+//                        String name = loadJson.GetProductId(modelClass.getId(), "two");
+//                        ((RecyclerViewClicked) context).getRecyclerViewItem(name);
+//                        Toast.makeText(context, "Id is" + modelClass.getId() + " name is " + name, Toast.LENGTH_SHORT).show();
+//
+//                    }
                 }else if(type.equals("three")){
-                        String name= loadJson.GetProductId(modelClass.getId(),"three");
-                        Toast.makeText(context, "Id is"+modelClass.getId()+" name is "+name, Toast.LENGTH_SHORT).show();
+                        //String name= loadJson.GetProductId(modelClass.getId(),"three");
+                       // Toast.makeText(context, "Id is"+modelClass.getId()+" name is "+name, Toast.LENGTH_SHORT).show();
+                    //context.getRecyclerViewItem(modelClass.getId());
+                    ((RegisterIncident) context).getRecyclerViewItem(modelClass.getId());
+
                     }
 
 

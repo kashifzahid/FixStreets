@@ -224,13 +224,13 @@
 
 
             <TextView
-                android:id="@+id/text_report"
+                android:id="@+id/tv_incident_type"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/square_edit_text"
 
                 android:drawableEnd="@drawable/ic_keyboard_arrow_down_black_24dp"
-                android:onClick="OpenTypes"
+
                 android:text="Incident Type" />
 
 
@@ -261,9 +261,12 @@
                 android:layout_marginTop="20dp"
                 android:background="@drawable/square_edit_text"
 
+                android:textAlignment="gravity"
+                android:gravity="top"
+
 
                 android:hint=""
-                android:padding="12dp" />
+                 />
 
             <Button
                 android:layout_width="match_parent"

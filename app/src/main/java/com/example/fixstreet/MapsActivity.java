@@ -636,6 +636,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         returnIntent.putExtra("throughfare", throughfare);
         returnIntent.putExtra("locality", locality);
         returnIntent.putExtra("street", street);
+        returnIntent.putExtra("lat", mCurrentLocation.getLatitude());
+        returnIntent.putExtra("lng", mCurrentLocation.getLongitude());
         setResult(Activity.RESULT_OK,returnIntent);
         finish();
     }

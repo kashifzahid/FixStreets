@@ -8,24 +8,6 @@
     android:background="@android:color/white"
     tools:context=".register_incident_2">
 
-    <LinearLayout
-        android:id="@+id/mask1"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@android:color/transparent"
-        android:clickable="true"
-        android:orientation="horizontal"
-        android:visibility="visible"
-        android:focusable="true" />
-
-    <RelativeLayout
-        android:id="@+id/view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:alpha="0.8"
-        android:background="#000000"
-        android:visibility="visible"/>
-
     <androidx.cardview.widget.CardView
         android:id="@+id/top"
         android:layout_width="match_parent"

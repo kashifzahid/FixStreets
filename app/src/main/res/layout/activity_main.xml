@@ -69,9 +69,9 @@
         android:layout_marginEnd="20dp"
         android:onClick="OpenIncident"
         android:layout_below="@id/text_above_button"
-
+        android:textColor="@color/white"
         android:id="@+id/button_report"
-        android:background="@drawable/button_corner"
+        android:background="@drawable/button_corner_blue_white"
 
         android:drawableStart="@drawable/ic_camera_alt_black_24dp"
 

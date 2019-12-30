@@ -5,10 +5,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -38,12 +40,13 @@ public class IncidentTypeDialog extends DialogFragment {
     private List<incident_type> modelClassList;
     private static String type;
     private static String name;
+    ImageView back,close;
     String url,screen;
     private static FragmentManager fragmentManager;
-
+    static IncidentTypeDialog exampleDialog;
 
     public static IncidentTypeDialog display(FragmentManager fragmentManagers, String types, String names) {
-        IncidentTypeDialog exampleDialog = new IncidentTypeDialog();
+        exampleDialog = new IncidentTypeDialog();
         exampleDialog.show(fragmentManagers, "INCIDENT TYPES");
         type = types;
         name = names;
@@ -80,6 +83,9 @@ public class IncidentTypeDialog extends DialogFragment {
         LinearLayoutManager recyclerLayoutManager = new LinearLayoutManager(getActivity());
         recyclerLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(recyclerLayoutManager);
+        back=view.findViewById(R.id.iv_back);
+        close=view.findViewById(R.id.iv_clear);
+
         url="";
 //        if (type.equals("one")) {
 //            AddDataToRecyclerView();
@@ -89,6 +95,18 @@ public class IncidentTypeDialog extends DialogFragment {
 //            AddDataToRecyclerViewDetailProduct(name);
 //        }
         AddDataToRecyclerViewFromServer(type,name);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                back_dialog(v);
+            }
+        });
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cancel_dialog(v);
+            }
+        });
         return view;
     }
 
@@ -110,10 +128,10 @@ public class IncidentTypeDialog extends DialogFragment {
                 try {
                     JSONArray jsonArray=jsonObject.getJSONArray("result");
                     for (int i=0;i<jsonArray.length();i++){
-                        JSONObject js = jsonArray.getJSONObject(0);
+                        JSONObject js = jsonArray.getJSONObject(i);
                         String name = js.getString("Name");
                         String id = js.getString("id");
-                        modelClassList.add(new incident_type( name,id, R.drawable.ic_location_on_black_24dp));
+                        modelClassList.add(new incident_type( name,id,R.drawable.logosmall));
                     }
 
                 } catch (JSONException e) {
@@ -226,5 +244,34 @@ public class IncidentTypeDialog extends DialogFragment {
     else{
             Toast.makeText(getActivity(), "no aa", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    public void onDestroy() {
+
+        super.onDestroy();
+    }
+    public  void dismissAllDialogs(FragmentManager manager) {
+        List<Fragment> fragments = manager.getFragments();
+
+        if (fragments == null)
+            return;
+
+        for (Fragment fragment : fragments) {
+            if (fragment instanceof DialogFragment) {
+                DialogFragment dialogFragment = (DialogFragment) fragment;
+                dialogFragment.dismissAllowingStateLoss();
+            }
+
+            FragmentManager childFragmentManager = fragment.getChildFragmentManager();
+            if (childFragmentManager != null)
+                dismissAllDialogs(childFragmentManager);
+        }
+    }
+    public  void cancel_dialog(View view){
+        dismissAllDialogs(fragmentManager);
+    }
+    public void back_dialog(View view){
+        dismiss();
     }
 }

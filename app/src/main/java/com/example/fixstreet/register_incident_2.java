@@ -46,7 +46,7 @@ public class register_incident_2 extends AppCompatActivity {
     private EditText name, email, phone, dweller;
     private TextView txt_detail_anonymous;
 
-    String street, house_no, muncipality, incident_type, comment;
+    String street, house_no, muncipality, incident_type, comment, lat, lng;
     ArrayList uris;
 
 
@@ -62,6 +62,8 @@ public class register_incident_2 extends AppCompatActivity {
         incident_type = i.getStringExtra("incident_type").toString();
         comment = i.getStringExtra("comment");
         uris = i.getStringArrayListExtra("images");
+        lat = i.getStringExtra("lat");
+        lng = i.getStringExtra("lng");
 
         swt_stay_anonymous = findViewById(R.id.switch_stay_anonymous);
 
@@ -70,17 +72,8 @@ public class register_incident_2 extends AppCompatActivity {
         phone = findViewById(R.id.phone);
         dweller = findViewById(R.id.dweller);
         txt_detail_anonymous = findViewById(R.id.txt_detail_anonymous);
+        Log.e(TAG, "onCreate: " + uris.size());
 
-        for (int j=0; j<uris.size(); j++){
-            Log.d(TAG, "onCreate: "+uris.get(j));
-            File imgFile = null;
-            try {
-                imgFile = new File(getFilePath(this, Uri.parse(uris.get(j).toString())));
-            } catch (URISyntaxException e) {
-                e.printStackTrace();
-            }
-            Aws.uploadtos3(this, imgFile);
-        }
 
         swt_stay_anonymous.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -210,7 +203,115 @@ public class register_incident_2 extends AppCompatActivity {
     public void Btn_Send(View view){
         if(swt_stay_anonymous.isChecked()){
 
-        }else{
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(register_incident_2.this);
+
+                    builder.setTitle("Confirmation");
+                    builder.setMessage("Thank you ! Your incident has been sent to the competent service. An E-mail containing the incident information has been sent to your address");
+
+                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+
+                        public void onClick(DialogInterface dialog, int which) {
+                            // Do nothing but close the dialog
+
+                            dialog.dismiss();
+                            Intent i = new Intent(getApplicationContext(), MainActivity.class);
+                            startActivity(i);
+                            finish();
+                        }
+                    });
+
+                    AlertDialog alert = builder.create();
+                    alert.show();
+                }
+            }, 3000);
+
+            JSONObject jsonObject=new JSONObject();
+            JSONObject type = new JSONObject();
+            JSONObject detail = new JSONObject();
+            JSONArray items=new JSONArray();
+            JSONObject itemDetails=new JSONObject();
+            try {
+                jsonObject.put("screen","AddIncidentReport");
+                // Log.e("tag", "getDashboard: "+id );
+                jsonObject.put("id","1_1_1");
+                jsonObject.put("region", muncipality);
+                jsonObject.put("address", street);
+                jsonObject.put("lat", lat);
+                jsonObject.put("long", lng);
+                jsonObject.put("status", Urls.NEW_INCIDENT_STATUS);
+
+
+                type.put("by", swt_stay_anonymous.isChecked()? "Anonymous": "User");
+
+                detail.put("name", "");
+                detail.put("email", "");
+                detail.put("number", "");
+                detail.put("type", "");
+                type.put("detail", detail);
+                jsonObject.put("type", type);
+
+                if(uris.size()>0) {
+                    for (int j=0; j<uris.size(); j++){
+                        Log.d(TAG, "onCreate: "+uris.get(j));
+                        File imgFile = null;
+                        try {
+                            imgFile = new File(getFilePath(this, Uri.parse(uris.get(j).toString())));
+                            itemDetails.put("msg", imgFile.getName());
+                            itemDetails.put("type","image");
+                            items.put(j,itemDetails);
+                            Log.e(TAG, "onCreate: " + imgFile.getName() );
+                        } catch (URISyntaxException e) {
+                            e.printStackTrace();
+                        }
+                        Aws.uploadtos3(this, imgFile);
+                    }
+                    itemDetails.put("msg", comment);
+                    itemDetails.put("type", "comment");
+                    items.put(uris.size(),itemDetails);
+                }
+                else{
+                    itemDetails.put("msg", comment);
+                    itemDetails.put("type", "comment");
+                    items.put(0,itemDetails);
+                }
+
+                jsonObject.put("detail",items);
+                Log.e(TAG, "Btn_Send: "+jsonObject );
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+
+            VolleyRequest.PostRequest(this, Urls.add_incident, jsonObject, new VolleyPostCallBack() {
+
+                @Override
+                public void OnSuccess(JSONObject jsonObject) {
+                    try {
+
+                        String absents=jsonObject.getString("absent_count");
+                        String attends=jsonObject.getString("present_count");
+
+                        Log.e(TAG, "OnSuccess: ");
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+
+                @Override
+                public void OnFailure(String err) {
+                    Log.e(TAG, "OnFailure: "+err );
+
+                }
+            });
+
+        }
+        else{
             String name = this.name.getText().toString();
             String email = this.email.getText().toString();
             String phone = this.phone.getText().toString();
@@ -241,7 +342,7 @@ public class register_incident_2 extends AppCompatActivity {
                     AlertDialog alert = builder.create();
                     alert.show();
                 }
-            }, 2000);
+            }, 3000);
 
 
             JSONObject jsonObject=new JSONObject();
@@ -255,8 +356,8 @@ public class register_incident_2 extends AppCompatActivity {
                 jsonObject.put("id","1_1_1");
                 jsonObject.put("region", muncipality);
                 jsonObject.put("address", street);
-                jsonObject.put("lat", street);
-                jsonObject.put("long", street);
+                jsonObject.put("lat", lat);
+                jsonObject.put("long", lng);
                 jsonObject.put("status", Urls.NEW_INCIDENT_STATUS);
 
 
@@ -269,14 +370,20 @@ public class register_incident_2 extends AppCompatActivity {
                 type.put("detail", detail);
                 jsonObject.put("type", type);
                 if(uris.size()>0) {
-                for(int i=0;i<uris.size();i++){
-                    itemDetails.put("msg",uris.get(i));
-                    itemDetails.put("type","image");
-                    items.put(i,itemDetails);
-                }
-
-
-
+                    for (int j=0; j<uris.size(); j++){
+                        Log.d(TAG, "onCreate: "+uris.get(j));
+                        File imgFile = null;
+                        try {
+                            imgFile = new File(getFilePath(this, Uri.parse(uris.get(j).toString())));
+                            itemDetails.put("msg",imgFile.getName());
+                            itemDetails.put("type","image");
+                            items.put(j,itemDetails);
+                            Log.e(TAG, "onCreate: " + imgFile.getName() );
+                        } catch (URISyntaxException e) {
+                            e.printStackTrace();
+                        }
+                        Aws.uploadtos3(this, imgFile);
+                    }
                     itemDetails.put("msg", comment);
                     itemDetails.put("type", "comment");
                     items.put(uris.size(),itemDetails);
@@ -287,7 +394,8 @@ public class register_incident_2 extends AppCompatActivity {
                     items.put(0,itemDetails);
                 }
 
-              jsonObject.put("detail",items);
+
+                jsonObject.put("detail",items);
                 Log.e(TAG, "Btn_Send: "+jsonObject );
             } catch (JSONException e) {
                 e.printStackTrace();

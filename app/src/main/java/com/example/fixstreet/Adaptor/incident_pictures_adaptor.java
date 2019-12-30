@@ -17,6 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.fixstreet.Dialog.IncidentTypeDialog;
 import com.example.fixstreet.JSONData.LoadJson;
 import com.example.fixstreet.Object.incident_type;
@@ -57,13 +58,19 @@ public class incident_pictures_adaptor extends RecyclerView.Adapter<incident_pic
         final incident_type modelClass = modelClassList.get(i);
         Bitmap bitmap = null;
         Log.e("h", "onBindViewHolder:000 "+modelClass.getUrl() );
-        try {
-            bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), modelClass.getUrl());
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        viewHolder.img.setImageBitmap(bitmap);
+//        try {
+//            bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), modelClass.getUrl());
+//
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+        Glide
+                .with(context)
+                .load(modelClass.getUrl())
+                .centerCrop()
+                .placeholder(R.drawable.logosmall)
+                .into(viewHolder.img);
+        // viewHolder.img.setImageBitmap(bitmap);
         viewHolder.del.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

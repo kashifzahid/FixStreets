@@ -2,6 +2,8 @@ package com.example.fixstreet.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -35,7 +37,16 @@ import com.example.fixstreet.Dialog.IncidentTypeDialog;
 import com.example.fixstreet.MapsActivity;
 import com.example.fixstreet.Object.incident_type;
 import com.example.fixstreet.R;
+import com.example.fixstreet.RecyclerViewClicked;
+import com.example.fixstreet.Utils.RealPathUtil;
+import com.example.fixstreet.Volley.Urls;
+import com.example.fixstreet.Volley.VolleyPostCallBack;
+import com.example.fixstreet.Volley.VolleyRequest;
 import com.example.fixstreet.register_incident_2;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
@@ -44,7 +55,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class RegisterIncident extends AppCompatActivity implements AddPictureDialogInterface {
+public class RegisterIncident extends AppCompatActivity implements AddPictureDialogInterface, RecyclerViewClicked {
     private static final String TAG = "RegisterIncident.java";
     private RecyclerView recyclerView;
     private incident_pictures_adaptor adaptor;
@@ -66,6 +77,8 @@ public class RegisterIncident extends AppCompatActivity implements AddPictureDia
     };
 
     private EditText ed_comment;
+    TextView tv_incident_type;
+    String incident_id, lat, lng;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +88,7 @@ public class RegisterIncident extends AppCompatActivity implements AddPictureDia
         throughfare = findViewById(R.id.throughfare);
         locality = findViewById(R.id.locality);
         street = findViewById(R.id.street);
+        tv_incident_type=findViewById(R.id.tv_incident_type);
 
         ed_comment = findViewById(R.id.comments);
 
@@ -86,13 +100,20 @@ public class RegisterIncident extends AppCompatActivity implements AddPictureDia
         recyclerView.setLayoutManager(recyclerLayoutManager);
         adaptor = new incident_pictures_adaptor(this, modelClassList);
         recyclerView.setAdapter(adaptor);
+        incident_id="";
+        tv_incident_type.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                OpenTypes();
+            }
+        });
        // AddDataToRecyclerView();
 
     }
 
-
-    public void OpenTypes(View view) {
-        IncidentTypeDialog.display(getSupportFragmentManager(),"one","null");
+    IncidentTypeDialog incidentTypeDialog;
+    public void OpenTypes() {
+        incidentTypeDialog = IncidentTypeDialog.display(getSupportFragmentManager(),"one","null");
 
     }
 
@@ -152,9 +173,10 @@ public class RegisterIncident extends AppCompatActivity implements AddPictureDia
                     Intent captureIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
                     SimpleDateFormat s = new SimpleDateFormat("ddMMyyyyhhmmss");
                     String format = s.format(new Date());
-                    File file = new File(Environment.getExternalStorageDirectory(), "MyPhoto"+format+".jpg");
+                    File file = new File(Environment.getExternalStorageDirectory(), "Stop"+format+".jpg");
                     outPutfileUri = Uri.fromFile(file);
                     Log.d(TAG, "onClick: "+MediaStore.EXTRA_OUTPUT);
+                    Log.d(TAG, "onClick: "+outPutfileUri);
                     captureIntent.putExtra(MediaStore.EXTRA_OUTPUT, outPutfileUri);
                     startActivityForResult(captureIntent, PICK_FROM_CAMERA);
                     dialog.dismiss();
@@ -202,10 +224,12 @@ public class RegisterIncident extends AppCompatActivity implements AddPictureDia
                     //pic coming from camera
                     Bitmap bitmap=null;
                     try {
-                        Uri selectedImage = data.getParcelableExtra(MediaStore.EXTRA_OUTPUT);;
-                        userTakenApicture(selectedImage);
+                        // Uri selectedImage = data.getParcelableExtra(MediaStore.EXTRA_OUTPUT);
+                        // String selectedImage = RealPathUtil.getRealPath(getApplicationContext(), outPutfileUri);
+                        // userTakenApicture(Uri.parse(selectedImage));
                         bitmap = MediaStore.Images.Media.getBitmap(RegisterIncident.this.getContentResolver(), outPutfileUri);
-                        ((AddPictureDialogInterface) RegisterIncident.this).userTakenApicture(outPutfileUri);
+                        Log.e(TAG, "onActivityResult: " + outPutfileUri );
+                        userTakenApicture(outPutfileUri);
 
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -231,6 +255,8 @@ public class RegisterIncident extends AppCompatActivity implements AddPictureDia
                     String throughfare = data.getStringExtra("throughfare");
                     String street = data.getStringExtra("street");
                     String locality = data.getStringExtra("locality");
+                    lat = data.getStringExtra("lat");
+                    lng = data.getStringExtra("lng");
 
                     this.throughfare.setText(throughfare);
                     this.street.setText(street);
@@ -254,13 +280,15 @@ public class RegisterIncident extends AppCompatActivity implements AddPictureDia
         i.putExtra("street", throughfare.getText().toString());
         i.putExtra("house_no", street.getText().toString());
         i.putExtra("municipality", locality.getText().toString());
-        i.putExtra("incident_type", "1_1_1");
+        i.putExtra("incident_type", incident_id);
         i.putExtra("comment", ed_comment.getText().toString());
+        i.putExtra("lat", lat);
+        i.putExtra("lng", lng);
         ArrayList a = new ArrayList();
         for (int j=0; j<modelClassList.size(); j++){
             a.add(modelClassList.get(j).getUrl());
         }
-        i.putExtra("images", a);
+        i.putStringArrayListExtra("images", a);
         startActivity(i);
     }
 
@@ -286,4 +314,40 @@ public class RegisterIncident extends AppCompatActivity implements AddPictureDia
         }
     }
 
+    @Override
+    public void getRecyclerViewItem(String str) {
+        Log.d(TAG, "getRecyclerViewItem: "+str);
+        incident_id=str;
+        incidentTypeDialog.dismissAllDialogs(getSupportFragmentManager());
+        GetItemName(str);
+    }
+
+    private void GetItemName( String str) {
+       String screen="GetSubCategoryItemById";
+       String url= Urls.GetCategory+"?screen="+screen+"&id="+str;
+
+        VolleyRequest.GetRequest(RegisterIncident.this, url, new VolleyPostCallBack() {
+            @Override
+            public void OnSuccess(JSONObject jsonObject) {
+                Log.e(TAG, "OnSuccess: "+jsonObject );
+
+                try {
+                    JSONArray jsonArray=jsonObject.getJSONArray("result");
+                    JSONObject js=jsonArray.getJSONObject(0);
+
+                    tv_incident_type.setText(js.getString("str"));
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void OnFailure(String err) {
+
+            }
+        });
+    }
 }
