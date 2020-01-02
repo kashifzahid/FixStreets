@@ -636,8 +636,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         returnIntent.putExtra("throughfare", throughfare);
         returnIntent.putExtra("locality", locality);
         returnIntent.putExtra("street", street);
-        returnIntent.putExtra("lat", mCurrentLocation.getLatitude());
-        returnIntent.putExtra("lng", mCurrentLocation.getLongitude());
+        returnIntent.putExtra("lat", locations.getLatitude());
+        returnIntent.putExtra("lng", locations.getLongitude());
         setResult(Activity.RESULT_OK,returnIntent);
         finish();
     }
@@ -672,6 +672,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private static String throughfare;
     private static String locality;
     private static String street;
+    Location locations;
     public void getAddressFromLocation(final Location location, final Context context, final Handler handler) {
         Thread thread = new Thread() {
             @Override
@@ -679,6 +680,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 Geocoder geocoder = new Geocoder(context, Locale.getDefault());
                 result = null;
                 try {
+                    locations=location;
                     List<Address> list = geocoder.getFromLocation(
                             location.getLatitude(), location.getLongitude(), 1);
                     if (list != null && list.size() > 0) {
@@ -707,6 +709,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             String[] addre = address.getAddressLine(0).split(",");
 
                             Log.e(TAG, " getFeatureName " + address.getFeatureName() + " getAddressLine " + address.getAddressLine(0).split(",") + " getAdminArea " + address.getAdminArea() + " getLocality " + address.getLocality() + " getPremises " + address.getPremises() + " getSubAdminArea " + address.getSubAdminArea() + " getSubLocality " + address.getSubLocality() + " getMaxAddressLineIndex " + address.getMaxAddressLineIndex() + " locale " + address.getLocale());
+                            Log.e(TAG, "run: "+address.getAddressLine(0) );
                             if( address.getLocality().equals("Anderlecht") || address.getLocality().equals("Auderghem")
                                     || address.getLocality().equals("Berchem")|| address.getLocality().equals("Ste-Agathe")
                                     || address.getLocality().equals("Bruxelles")|| address.getLocality().equals("Etterbeek")
@@ -717,7 +720,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                     || address.getLocality().equals("St-Gilles")|| address.getLocality().equals("St-Josse-ten-Noode")
                                     || address.getLocality().equals("Schaerbeek")|| address.getLocality().equals("Uccle")
                                     || address.getLocality().equals("Watermael-Boitsfort")|| address.getLocality().equals("Woluwe-St-Lambert")
-                                    || address.getLocality().equals("Woluwe-St-Pierre")){
+                                    || address.getLocality().equals("Woluwe-St-Pierre") || address.getAddressLine(0).equals("")
+                                    || address.getLocality().equals("Brussel")){
 //                            if( address.getAddressLine(0).contains("Brussel")){
                                 runOnUiThread(new Runnable() {
 

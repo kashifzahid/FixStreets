@@ -46,7 +46,7 @@ public class register_incident_2 extends AppCompatActivity {
     private EditText name, email, phone, dweller;
     private TextView txt_detail_anonymous;
 
-    String street, house_no, muncipality, incident_type, comment, lat, lng;
+    String street, house_no, muncipality, incident_type, comment, lat, lng, id;
     ArrayList uris;
 
 
@@ -64,7 +64,7 @@ public class register_incident_2 extends AppCompatActivity {
         uris = i.getStringArrayListExtra("images");
         lat = i.getStringExtra("lat");
         lng = i.getStringExtra("lng");
-
+        id = i.getStringExtra("id");
         swt_stay_anonymous = findViewById(R.id.switch_stay_anonymous);
 
         name = findViewById(R.id.name);
@@ -349,11 +349,11 @@ public class register_incident_2 extends AppCompatActivity {
             JSONObject type = new JSONObject();
             JSONObject detail = new JSONObject();
             JSONArray items=new JSONArray();
-            JSONObject itemDetails=new JSONObject();
+
             try {
                 jsonObject.put("screen","AddIncidentReport");
                 // Log.e("tag", "getDashboard: "+id );
-                jsonObject.put("id","1_1_1");
+                jsonObject.put("id",id);
                 jsonObject.put("region", muncipality);
                 jsonObject.put("address", street);
                 jsonObject.put("lat", lat);
@@ -374,24 +374,30 @@ public class register_incident_2 extends AppCompatActivity {
                         Log.d(TAG, "onCreate: "+uris.get(j));
                         File imgFile = null;
                         try {
+                            JSONObject itemDetails=new JSONObject();
                             imgFile = new File(getFilePath(this, Uri.parse(uris.get(j).toString())));
                             itemDetails.put("msg",imgFile.getName());
                             itemDetails.put("type","image");
                             items.put(j,itemDetails);
-                            Log.e(TAG, "onCreate: " + imgFile.getName() );
+
+                            Log.e(TAG, "onCreate: ju j " + imgFile.getName() +items.length() );
                         } catch (URISyntaxException e) {
                             e.printStackTrace();
                         }
                         Aws.uploadtos3(this, imgFile);
                     }
-                    itemDetails.put("msg", comment);
-                    itemDetails.put("type", "comment");
-                    items.put(uris.size(),itemDetails);
+                    JSONObject itemDetails2=new JSONObject();
+
+                    itemDetails2.put("msg", comment);
+                    itemDetails2.put("type", "comment");
+                    Log.e(TAG, "Btn_Send: size is "+uris.size() );
+                    items.put(uris.size(),itemDetails2);
                 }
                 else{
-                    itemDetails.put("msg", comment);
-                    itemDetails.put("type", "comment");
-                    items.put(0,itemDetails);
+                    JSONObject itemDetails2=new JSONObject();
+                    itemDetails2.put("msg", comment);
+                    itemDetails2.put("type", "comment");
+                    items.put(0,itemDetails2);
                 }
 
 

@@ -284,6 +284,7 @@ public class RegisterIncident extends AppCompatActivity implements AddPictureDia
         i.putExtra("comment", ed_comment.getText().toString());
         i.putExtra("lat", lat);
         i.putExtra("lng", lng);
+        i.putExtra("id", incident_id);
         ArrayList a = new ArrayList();
         for (int j=0; j<modelClassList.size(); j++){
             a.add(modelClassList.get(j).getUrl());
