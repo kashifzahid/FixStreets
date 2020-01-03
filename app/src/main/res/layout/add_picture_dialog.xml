@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="start"
         android:layout_margin="20dp"
-        android:text="Add a picture"
+        android:text="@string/add_a_picture"
         android:textColor="@android:color/black"
         android:textSize="20dp"
         android:textStyle="bold" />
@@ -26,7 +26,7 @@
         android:background="@android:color/white"
         android:gravity="start|center_vertical"
         android:padding="17dp"
-        android:text="Take a picture"
+        android:text="@string/take_a_picture"
         android:textAllCaps="false" />
 
     <Button
@@ -36,7 +36,7 @@
         android:background="@android:color/white"
         android:gravity="start|center_vertical"
         android:padding="17dp"
-        android:text="Choose a picture"
+        android:text="@string/choose_a_picture"
         android:textAllCaps="false" />
 
     <Button
@@ -48,7 +48,7 @@
 
         android:clickable="true"
         android:gravity="center_horizontal"
-        android:text="Cancel"
+        android:text="@string/cancel"
         android:textColor="#000"
         android:textStyle="bold"
         android:layout_marginBottom="20dp"/>

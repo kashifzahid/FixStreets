@@ -30,7 +30,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical|center_horizontal"
-            android:text="Register An Incident 1/2"
+            android:text="@string/register_an_incident_1_2"
             android:textColor="@color/white"
             android:textStyle="bold"
             android:textSize="20sp" />
@@ -62,7 +62,7 @@
                 android:layout_centerVertical="true"
                 android:drawableStart="@drawable/ic_camera_alt_blue_24dp"
                 android:drawablePadding="10dp"
-                android:text="PICTURES OF THE INCIDENT *"
+                android:text="@string/pictures_of_the_incident"
                 android:textColor="@color/TextColorBlue" />
 
             <Button
@@ -126,7 +126,7 @@
                 android:layout_centerVertical="true"
                 android:drawableStart="@drawable/ic_location_on_black_24dp"
                 android:drawablePadding="10dp"
-                android:text="ADDRESS *"
+                android:text="@string/address"
                 android:textColor="@color/TextColorBlue" />
 
         </RelativeLayout>
@@ -151,7 +151,7 @@
                     android:layout_weight="0.8"
                     android:textSize="15sp"
                     android:background="@drawable/square_edit_text"
-                    android:hint="Address"
+                    android:hint="@string/hint_address"
                     android:padding="12dp" />
 
                 <EditText
@@ -162,7 +162,7 @@
                     android:layout_weight="0.2"
                     android:textSize="15sp"
                     android:background="@drawable/square_edit_text"
-                    android:hint="N8"
+                    android:hint="@string/hint_n8"
                     android:padding="12dp" />
 
             </LinearLayout>
@@ -177,7 +177,7 @@
                 android:background="@drawable/square_edit_text_disable"
                 android:editable="false"
                 android:padding="12dp"
-                android:text="Address"
+                android:text="@string/hint_address"
                 android:textColor="#707070"
                 android:textAlignment="textStart" />
 
@@ -189,7 +189,7 @@
                 android:background="@drawable/button_corner_blue"
                 android:onClick="OpenMap"
                 android:padding="12dp"
-                android:text="MAP"
+                android:text="@string/map"
                 android:textAlignment="center"
                 android:textColor="@color/white"/>
         </RelativeLayout>
@@ -209,7 +209,7 @@
                 android:layout_centerVertical="true"
                 android:drawableStart="@drawable/ic_report_problem_black_24dp"
                 android:drawablePadding="10dp"
-                android:text="INCIDENT TYPE *"
+                android:text="@string/incident_type"
                 android:textColor="@color/TextColorBlue" />
 
 
@@ -231,7 +231,7 @@
 
                 android:drawableEnd="@drawable/ic_keyboard_arrow_down_black_24dp"
 
-                android:text="Incident Type" />
+                android:text="@string/hint_incident_type" />
 
 
         </RelativeLayout>
@@ -250,7 +250,7 @@
 
                 android:drawableStart="@drawable/ic_message_black_24dp"
                 android:drawablePadding="10dp"
-                android:text="COMMENTS "
+                android:text="@string/comments"
                 android:textColor="@color/TextColorBlue" />
 
             <EditText
@@ -276,7 +276,7 @@
                 android:background="@drawable/button_corner_blue"
                 android:onClick="btn_submit"
                 android:padding="12dp"
-                android:text="SUBMIT"
+                android:text="@string/submit"
                 android:textColor="@color/white"
                 android:textAlignment="center" />
 

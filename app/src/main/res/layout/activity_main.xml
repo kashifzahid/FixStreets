@@ -45,7 +45,7 @@
 
 
 
-        android:text="Report incidents in the Brussels Public spaces and participate in the improvement of your city !" />
+        android:text="@string/report_incident_detail" />
 
     <TextView
         android:layout_width="match_parent"
@@ -61,7 +61,7 @@
         android:textColor="@color/TextColor"
         android:layout_centerInParent="true"
 
-        android:text="Please call the police in case of emergency"/>
+        android:text="@string/police_emergency_text"/>
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -77,7 +77,7 @@
 
         android:ellipsize="end"
         android:padding="22dp"
-        android:text="Report AN INCIDENT"
+        android:text="@string/report_an_incident"
 
         android:layout_centerInParent="true" />
 

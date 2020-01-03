@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
         android:layout_gravity="start"
-        android:text="Confirmation"
+        android:text="@string/confirmation"
         android:textColor="@android:color/black"
         android:textSize="20dp"
         android:textStyle="bold" />
@@ -26,7 +26,7 @@
         android:layout_marginRight="20dp"
         android:textSize="15sp"
         android:textColor="@android:color/black"
-        android:text="Thank you ! Your incident has been sent to the competent service. An E-mail containing the incident information has been sent to your address"/>
+        android:text="@string/confirmation_text"/>
 
     <Button
         android:id="@+id/btn_cancel"
@@ -37,7 +37,7 @@
 
         android:background="@android:color/white"
         android:clickable="true"
-        android:text="Ok"
+        android:text="@string/ok"
         android:textColor="#000"
         android:textStyle="bold" />
 

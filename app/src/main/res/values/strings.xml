@@ -1,7 +1,35 @@
 <resources>
     <string name="app_name">Stop Violence</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
+
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_maps">Map</string>
+    <string name="police_emergency_text">Please call the police in case of emergency</string>
+    <string name="report_an_incident">Report AN INCIDENT</string>
+    <string name="report_incident_detail">Report incidents in the Brussels Public spaces and participate in the improvement of your city !</string>
+    <string name="register_an_incident_1_2">Register An Incident 1/2</string>
+    <string name="pictures_of_the_incident">PICTURES OF THE INCIDENT *</string>
+    <string name="address">ADDRESS *</string>
+    <string name="hint_address">Address</string>
+    <string name="hint_n8">N8</string>
+    <string name="map">MAP</string>
+    <string name="incident_type">INCIDENT TYPE *</string>
+    <string name="hint_incident_type">Incident Type</string>
+    <string name="comments">COMMENTS</string>
+    <string name="submit">SUBMIT</string>
+    <string name="register_an_incident_2_2">Register An Incident 2/2</string>
+    <string name="stay_anonymous">STAY ANONYMOUS</string>
+    <string name="coordinates">COORDINATES</string>
+    <string name="hint_name">Name *</string>
+    <string name="hint_email">Email *</string>
+    <string name="hint_phone">Phone</string>
+    <string name="hint_dweller">Dweller</string>
+    <string name="send">Send</string>
+    <string name="take_a_picture">Take a picture</string>
+    <string name="add_a_picture">Add a picture</string>
+    <string name="choose_a_picture">Choose a picture</string>
+    <string name="cancel">Cancel</string>
+    <string name="confirmation">Confirmation</string>
+    <string name="confirmation_text">Thank you ! Your incident has been sent to the competent service. An E-mail containing the incident information has been sent to your address</string>
+    <string name="ok">Ok</string>
 </resources>

@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:textStyle="bold"
             android:layout_gravity="center_vertical|center_horizontal"
-            android:text="Register An Incident 2/2"
+            android:text="@string/register_an_incident_2_2"
             android:textColor="@color/white"
             android:textSize="20sp" />
 
@@ -62,7 +62,7 @@
                 android:layout_marginBottom="20dp"
                 android:drawableStart="@drawable/ic_people_black_24dp"
                 android:drawablePadding="10dp"
-                android:text="STAY ANONYMOUS "
+                android:text="@string/stay_anonymous"
 
                 android:textColor="@color/TextColorBlue" />
 
@@ -85,7 +85,7 @@
                 android:layout_below="@+id/txt_detail_anonymous"
                 android:drawableStart="@drawable/ic_people_black_24dp"
                 android:drawablePadding="10dp"
-                android:text="COORDINATES "
+                android:text="@string/coordinates"
                 android:textColor="@color/TextColorBlue" />
 
 
@@ -97,7 +97,7 @@
                 android:layout_marginTop="20dp"
                 android:background="@drawable/square_edit_text"
                 android:textSize="15sp"
-                android:hint="Name *"
+                android:hint="@string/hint_name"
                 android:padding="12dp" />
 
             <EditText
@@ -109,7 +109,7 @@
                 android:background="@drawable/square_edit_text"
                 android:textSize="15sp"
 
-                android:hint="Email *"
+                android:hint="@string/hint_email"
                 android:padding="12dp" />
 
             <EditText
@@ -121,7 +121,7 @@
                 android:background="@drawable/square_edit_text"
                 android:textSize="15sp"
 
-                android:hint="Phone "
+                android:hint="@string/hint_phone"
                 android:padding="12dp" />
 
             <EditText
@@ -134,7 +134,7 @@
                 android:textSize="15sp"
 
                 android:drawableEnd="@drawable/ic_keyboard_arrow_down_black_24dp"
-                android:hint="Dweller"
+                android:hint="@string/hint_dweller"
                 android:padding="12dp"
 
                 />
@@ -162,7 +162,7 @@
                 android:layout_marginTop="20dp"
                 android:background="@drawable/button_corner_blue"
                 android:padding="12dp"
-                android:text="Send"
+                android:text="@string/send"
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:onClick="Btn_Send"/>
