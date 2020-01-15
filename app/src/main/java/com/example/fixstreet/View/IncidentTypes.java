@@ -14,6 +14,13 @@ import android.view.ViewGroup;
 import com.example.fixstreet.Adaptor.incident_adaptor;
 import com.example.fixstreet.Object.incident_type;
 import com.example.fixstreet.R;
+import com.example.fixstreet.Volley.Urls;
+import com.example.fixstreet.Volley.VolleyPostCallBack;
+import com.example.fixstreet.Volley.VolleyRequest;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +32,7 @@ public class IncidentTypes extends Fragment {
     private RecyclerView recyclerView;
     private incident_adaptor adaptor;
     private List<incident_type> modelClassList;
+
 
     public IncidentTypes() {
         // Required empty public constructor

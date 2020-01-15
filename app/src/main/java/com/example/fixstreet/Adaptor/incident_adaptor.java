@@ -3,6 +3,7 @@ package com.example.fixstreet.Adaptor;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,8 @@ import com.example.fixstreet.JSONData.LoadJson;
 import com.example.fixstreet.Object.incident_type;
 import com.example.fixstreet.R;
 import com.example.fixstreet.RecyclerViewClicked;
+import com.example.fixstreet.Utils.checkitemcallback;
+import com.example.fixstreet.View.IncidentTypes;
 import com.example.fixstreet.View.RegisterIncident;
 
 import java.util.List;
@@ -64,29 +67,35 @@ public class incident_adaptor extends RecyclerView.Adapter<incident_adaptor.View
 //                Intent intent=new Intent(context, AttendanceDetail.class);
 //                intent.putExtra("id", modelClass.getEmp_code());
 //                context.startActivity(intent);
-              //  Toast.makeText(context, "Id is"+modelClass.getId(), Toast.LENGTH_SHORT).show();
-                LoadJson loadJson = new LoadJson(context);
-                if(type.equals("one")){
-                    IncidentTypeDialog.display(fragmentManager,"two",modelClass.getId());
-                }else if(type.equals("two")) {
-                    IncidentTypeDialog.display(fragmentManager, "three", modelClass.getId());
+                //  Toast.makeText(context, "Id is"+modelClass.getId(), Toast.LENGTH_SHORT).show();
 
-//                    String status = loadJson.CheckProduct(modelClass.getId());
-//                    if (status.equals("yes")) {
-//                        IncidentTypeDialog.display(fragmentManager, "three", modelClass.getId());
-//                    } else if (status.equals("not")) {
-//                        String name = loadJson.GetProductId(modelClass.getId(), "two");
-//                        ((RecyclerViewClicked) context).getRecyclerViewItem(name);
-//                        Toast.makeText(context, "Id is" + modelClass.getId() + " name is " + name, Toast.LENGTH_SHORT).show();
-//
-//                    }
-                }else if(type.equals("three")){
-                        //String name= loadJson.GetProductId(modelClass.getId(),"three");
-                       // Toast.makeText(context, "Id is"+modelClass.getId()+" name is "+name, Toast.LENGTH_SHORT).show();
-                    //context.getRecyclerViewItem(modelClass.getId());
-                    ((RegisterIncident) context).getRecyclerViewItem(modelClass.getId());
+                if (type.equals("three")) {
+                    ((RegisterIncident) context).getRecyclerViewItem(modelClass.getId(),type);
+                } else {
+                    String results = ((RegisterIncident) context).checkitem(modelClass.getId(), type, new checkitemcallback() {
+                        @Override
+                        public void returnString(String abc) {
+                            if (abc.equals("exists")) {
+                                if(type.equals("one")){
+                                    type="two";
 
-                    }
+                                }else if(type.equals("two")){
+                                    type="three";
+                                }
+                                IncidentTypeDialog.display(fragmentManager, type, modelClass.getId());
+                            } else if (abc.equals("not exists")) {
+                                ((RegisterIncident) context).getRecyclerViewItem(modelClass.getId(), type);
+
+                            }
+                        }
+                    });
+                    Log.e("tags", "onClick: "+results );
+
+
+            }
+
+
+
 
 
                 }

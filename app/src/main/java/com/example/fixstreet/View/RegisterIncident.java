@@ -2,6 +2,7 @@ package com.example.fixstreet.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -31,6 +32,7 @@ import android.widget.TextView;
 
 import com.example.fixstreet.Adaptor.incident_adaptor;
 import com.example.fixstreet.Adaptor.incident_pictures_adaptor;
+import com.example.fixstreet.BuildConfig;
 import com.example.fixstreet.Dialog.AddPictureDialog;
 import com.example.fixstreet.Dialog.AddPictureDialogInterface;
 import com.example.fixstreet.Dialog.IncidentTypeDialog;
@@ -39,6 +41,7 @@ import com.example.fixstreet.Object.incident_type;
 import com.example.fixstreet.R;
 import com.example.fixstreet.RecyclerViewClicked;
 import com.example.fixstreet.Utils.RealPathUtil;
+import com.example.fixstreet.Utils.checkitemcallback;
 import com.example.fixstreet.Volley.Urls;
 import com.example.fixstreet.Volley.VolleyPostCallBack;
 import com.example.fixstreet.Volley.VolleyRequest;
@@ -62,7 +65,9 @@ public class RegisterIncident extends AppCompatActivity implements AddPictureDia
     private List<incident_type> modelClassList;
     private Button galleryButton, cameraButton, map;
     private static final int PICK_FROM_CAMERA = 1;
+    private String status;
     private static final int PICK_FROM_GALLARY = 2;
+
 
 
     Uri outPutfileUri;
@@ -78,7 +83,8 @@ public class RegisterIncident extends AppCompatActivity implements AddPictureDia
 
     private EditText ed_comment;
     TextView tv_incident_type;
-    String incident_id, lat, lng;
+    String incident_id, incident_name;
+    Double        lat, lng;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -174,7 +180,8 @@ public class RegisterIncident extends AppCompatActivity implements AddPictureDia
                     SimpleDateFormat s = new SimpleDateFormat("ddMMyyyyhhmmss");
                     String format = s.format(new Date());
                     File file = new File(Environment.getExternalStorageDirectory(), "Stop"+format+".jpg");
-                    outPutfileUri = Uri.fromFile(file);
+                    outPutfileUri = FileProvider.getUriForFile(RegisterIncident.this, BuildConfig.APPLICATION_ID +".fileprovider", file);
+
                     Log.d(TAG, "onClick: "+MediaStore.EXTRA_OUTPUT);
                     Log.d(TAG, "onClick: "+outPutfileUri);
                     captureIntent.putExtra(MediaStore.EXTRA_OUTPUT, outPutfileUri);
@@ -255,8 +262,9 @@ public class RegisterIncident extends AppCompatActivity implements AddPictureDia
                     String throughfare = data.getStringExtra("throughfare");
                     String street = data.getStringExtra("street");
                     String locality = data.getStringExtra("locality");
-                    lat = data.getStringExtra("lat");
-                    lng = data.getStringExtra("lng");
+                    lat = data.getDoubleExtra("lat", 0);
+                    lng = data.getDoubleExtra("lng", 0);
+                    Log.e(TAG, lat +" "+ lng);
 
                     this.throughfare.setText(throughfare);
                     this.street.setText(street);
@@ -280,11 +288,12 @@ public class RegisterIncident extends AppCompatActivity implements AddPictureDia
         i.putExtra("street", throughfare.getText().toString());
         i.putExtra("house_no", street.getText().toString());
         i.putExtra("municipality", locality.getText().toString());
-        i.putExtra("incident_type", incident_id);
+        i.putExtra("incident_id", incident_id);
+        Log.d(TAG, incident_id +" "+lat +" "+ lng);
+        i.putExtra("incident_name", incident_name);
         i.putExtra("comment", ed_comment.getText().toString());
         i.putExtra("lat", lat);
         i.putExtra("lng", lng);
-        i.putExtra("id", incident_id);
         ArrayList a = new ArrayList();
         for (int j=0; j<modelClassList.size(); j++){
             a.add(modelClassList.get(j).getUrl());
@@ -316,15 +325,78 @@ public class RegisterIncident extends AppCompatActivity implements AddPictureDia
     }
 
     @Override
-    public void getRecyclerViewItem(String str) {
+    public void getRecyclerViewItem(String str, String type) {
         Log.d(TAG, "getRecyclerViewItem: "+str);
         incident_id=str;
         incidentTypeDialog.dismissAllDialogs(getSupportFragmentManager());
-        GetItemName(str);
+        GetItemName(str,type);
     }
 
-    private void GetItemName( String str) {
-       String screen="GetSubCategoryItemById";
+
+
+
+
+    public String checkitem(String id, String type, final checkitemcallback callback){
+
+        status="";
+        String screen="";
+        if(type.equals("one")){
+            screen="CheckCategoryById";
+
+        }else if(type.equals("two")){
+            screen="CheckSubCategoryById";
+        }else if(type.equals("three")){
+            screen="CheckSubCategoryItemById";
+
+        }
+
+        String uri= Urls.GetCategory+"?id="+id+"&screen="+screen;
+        VolleyRequest.GetRequest(RegisterIncident.this, uri, new VolleyPostCallBack() {
+            @Override
+            public void OnSuccess(JSONObject jsonObject) {
+                Log.e(TAG, "OnSuccess: loaded"+jsonObject );
+                try {
+                    JSONArray jsonArray=jsonObject.getJSONArray("result");
+                    for (int i=0;i<jsonArray.length();i++){
+                        JSONObject js = jsonArray.getJSONObject(i);
+                        String name = js.getString("status");
+                        if(name.equals("0")){
+
+                            callback.returnString("not exists");
+                        }else {
+
+                            callback.returnString("exists");
+                        }
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void OnFailure(String err) {
+                status="not exists";
+
+            }
+        });
+        return status;
+    }
+
+    private void GetItemName( String str,String type) {
+        String screen="";
+        if(type.equals("one")){
+            screen="GetCategoryById";
+
+        }else if(type.equals("two")){
+            screen="GetSubCategoryById";
+        }else if(type.equals("three")){
+            screen="GetSubCategoryItemById";
+
+        }
+
+
        String url= Urls.GetCategory+"?screen="+screen+"&id="+str;
 
         VolleyRequest.GetRequest(RegisterIncident.this, url, new VolleyPostCallBack() {
@@ -337,7 +409,7 @@ public class RegisterIncident extends AppCompatActivity implements AddPictureDia
                     JSONObject js=jsonArray.getJSONObject(0);
 
                     tv_incident_type.setText(js.getString("str"));
-
+                    incident_name = js.getString("str");
 
                 } catch (JSONException e) {
                     e.printStackTrace();

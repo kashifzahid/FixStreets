@@ -10,6 +10,9 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        renderscriptTargetApi 29
+        renderscriptSupportModeEnabled true
     }
     buildTypes {
         release {
@@ -41,4 +44,6 @@ dependencies {
     implementation 'com.amazonaws:aws-android-sdk-cognito:2.7.+'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.10.0'
     implementation 'com.github.bumptech.glide:glide:4.10.0'
+
+    implementation 'jp.wasabeef:blurry:3.0.0'
 }

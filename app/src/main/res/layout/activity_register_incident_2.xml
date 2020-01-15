@@ -133,11 +133,11 @@
                 android:background="@drawable/square_edit_text"
                 android:textSize="15sp"
 
-                android:drawableEnd="@drawable/ic_keyboard_arrow_down_black_24dp"
+
                 android:hint="@string/hint_dweller"
                 android:padding="12dp"
-
                 />
+            <!--                android:drawableEnd="@drawable/ic_keyboard_arrow_down_black_24dp"-->
 
             <Switch
                 android:id="@+id/switch_stay_anonymous"

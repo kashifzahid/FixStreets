@@ -1,6 +1,6 @@
 package com.example.fixstreet;
 
 public interface RecyclerViewClicked {
-    public void getRecyclerViewItem(String str);
+    void getRecyclerViewItem(String str,String type);
 
 }

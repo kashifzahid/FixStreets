@@ -40,6 +40,7 @@ public class IncidentTypeDialog extends DialogFragment {
     private List<incident_type> modelClassList;
     private static String type;
     private static String name;
+    private String status;
     ImageView back,close;
     String url,screen;
     private static FragmentManager fragmentManager;

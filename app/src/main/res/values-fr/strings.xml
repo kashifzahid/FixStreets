@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Stop Racisme</string>
+
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_maps">Localisation</string>
+    <string name="police_emergency_text">En cas de danger, Appelez la Police !</string>
+    <string name="report_an_incident">Signalez un incident</string>
+    <string name="report_incident_detail">Ne restez pas seul, nous pouvons vous aider !</string>
+    <string name="register_an_incident_1_2">Ajout d\'un incident 1/2</string>
+    <string name="pictures_of_the_incident">Ajouter une image *</string>
+    <string name="address">Adresse *</string>
+    <string name="hint_address">Adresse</string>
+    <string name="hint_n8">N8</string>
+    <string name="map">MAP</string>
+    <string name="incident_type">Type d\'incident *</string>
+    <string name="hint_incident_type">Type d\'incident</string>
+    <string name="comments">Commentaires</string>
+    <string name="submit">Envoyez</string>
+    <string name="register_an_incident_2_2">Ajout d\'un Incident 2/2</string>
+    <string name="stay_anonymous">Rester anonyme</string>
+    <string name="coordinates">Vos coordonnées</string>
+    <string name="hint_name">Nom *</string>
+    <string name="hint_email">Email *</string>
+    <string name="hint_phone">Mobile</string>
+    <string name="hint_dweller">Dweller</string>
+    <string name="send">Send</string>
+    <string name="take_a_picture">Prendre une photo</string>
+    <string name="add_a_picture">Ajouter une photo</string>
+    <string name="choose_a_picture">Choisir une photo</string>
+    <string name="cancel">Annuler</string>
+    <string name="confirmation">Confirmation</string>
+    <string name="confirmation_text">Merci, votre témoignage va être transférer au service compétent. Vous recevrez un email de confirmation prochainement.</string>
+    <string name="ok">Ok</string>
+</resources>
